@@ -13,7 +13,62 @@
 <title>Propix HQ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js">
+
+// ─── PROPIX v9: stronger login CTA + reliable swipe ─────────────────
+(function finalizeLoginV9(){
+  const saved = localStorage.getItem('px-theme-v9') || localStorage.getItem('px-theme-v8');
+  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+  const originalToggle = window.toggleTheme;
+  window.toggleTheme = function(){
+    if (typeof originalToggle === 'function') originalToggle();
+    localStorage.setItem('px-theme-v9', document.documentElement.getAttribute('data-theme') || 'light');
+  };
+
+  const galleryBtn = document.querySelector('.login-gallery-btn');
+  galleryBtn?.setAttribute('title', 'Siguiente propiedad');
+
+  const themeBtn = document.querySelector('.login-theme-btn');
+  themeBtn?.setAttribute('title', 'Cambiar entre modo claro y oscuro');
+
+  // Reduce accidental photo-mode behavior on login; keep focus on swipe + auth.
+  const screen = document.getElementById('s-login');
+  if (screen) screen.classList.remove('photo-mode');
+})();
+
+
+
+// ─── PROPIX v10 login cleanup ─────────────────
+(function finalizeLoginV10(){
+  const wrap = document.getElementById('gal-wrap');
+  if (wrap && !document.getElementById('login-hero-static')) {
+    const hero = document.createElement('div');
+    hero.id = 'login-hero-static';
+    hero.className = 'login-hero-static';
+    hero.innerHTML = `
+      <div class="hero-logo-shell"><img src="img/logo.png" alt="Propix"></div>
+      <div class="hero-wordmark2">PROPIX</div>
+      <div class="hero-hq2">HQ</div>
+      <div class="hero-tagline">Tu próximo hogar, a un swipe de distancia.</div>
+    `;
+    wrap.appendChild(hero);
+  }
+
+  const sheet = document.getElementById('login-sheet');
+  const panel = document.getElementById('auth-panel');
+  const welcome = document.getElementById('login-welcome');
+  sheet?.classList.remove('auth-open','expanded');
+  panel?.setAttribute('aria-hidden','true');
+  if (welcome) welcome.style.display = '';
+
+  const galleryBtn = document.querySelector('.login-gallery-btn');
+  galleryBtn?.setAttribute('title', 'Siguiente propiedad');
+
+  // Make sure the default screen is the welcome teaser, not the auth form.
+  window.backToWelcome?.();
+})();
+
+</script>
 <style>
 /* ══════════════════════════════════════
    PROPIX HQ — Design System v3
@@ -1560,6 +1615,95 @@ html[data-theme="dark"] .hero-brand-lockup{color:#fff;filter:drop-shadow(0 10px 
 @media (max-width:380px){.hero-brand-lockup{top:calc(max(env(safe-area-inset-top),8px) + 62px)}.hero-logo-img{width:88px;height:88px}.hero-wordmark{font-size:31px}.hero-hq{font-size:20px}.hero-brand-lockup p{font-size:11px}.login-sheet{left:8px!important;right:8px!important;padding-left:16px!important;padding-right:16px!important}.login-welcome h1{font-size:20px}.role-card{min-height:74px;font-size:12px}.trust-row{gap:4px}.gal-name{font-size:19px!important}#s-login .gal-info{bottom:calc(50svh + 10px)}}
 @media (max-height:720px){.hero-brand-lockup{transform:scale(.86);transform-origin:top center;top:calc(max(env(safe-area-inset-top),8px) + 50px)}.login-sub{display:none}.trust-row,.legal-mini{display:none}.login-sheet{padding-bottom:max(env(safe-area-inset-bottom),12px)!important}.role-card{min-height:70px}.hero-cta,.auth-cta{min-height:52px}.quick-socials{margin-bottom:0}}
 
+
+/* ══════════════════════════════════════
+   PROPIX v9 login refinements
+   ══════════════════════════════════════ */
+#s-login{background:#eef5fc!important}
+#s-login .gal-wrap{touch-action:pan-y;background:#dfefff}
+#s-login .gal-slide{width:100%!important}
+#s-login .gal-slide::after{background:linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,.06) 26%,rgba(0,0,0,0) 56%,rgba(0,0,0,.40) 76%,rgba(0,0,0,.66) 100%)!important}
+html[data-theme="dark"] #s-login .gal-slide::after{background:linear-gradient(180deg,rgba(3,10,19,.20) 0%,rgba(3,10,19,.08) 28%,rgba(0,0,0,.16) 56%,rgba(0,0,0,.74) 100%)!important}
+.hero-brand-lockup{top:calc(max(env(safe-area-inset-top),10px) + 54px)!important;transform:none!important}
+.hero-logo-img{width:108px!important;height:108px!important;margin-bottom:8px!important}
+.hero-wordmark{font-size:40px!important;letter-spacing:.06em!important}
+.hero-hq{font-size:22px!important;margin-top:2px!important}
+.hero-hq::before,.hero-hq::after{width:44px!important}
+.hero-brand-lockup p{font-size:12px!important;font-weight:700!important;margin-top:6px!important}
+#s-login .gal-info{left:22px!important;right:22px!important;bottom:calc(39svh + 18px)!important}
+.hero-loc{background:rgba(7,17,29,.38)!important;border-color:rgba(255,255,255,.22)!important;padding:7px 12px!important;font-size:11.5px!important}
+.hero-save{width:40px!important;height:40px!important;font-size:22px!important}
+.gal-name{font-size:18px!important;line-height:1.12!important;margin-bottom:3px!important}
+.gal-price{font-size:17px!important;line-height:1.1!important}
+.login-sheet{left:0!important;right:0!important;bottom:0!important;border-radius:34px 34px 0 0!important;padding:0 22px calc(max(env(safe-area-inset-bottom),14px) + 8px)!important;background:rgba(255,255,255,.97)!important;border:1px solid rgba(6,21,39,.08)!important;box-shadow:0 -18px 60px rgba(6,21,39,.16)!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important}
+html[data-theme="dark"] .login-sheet{background:rgba(6,18,31,.96)!important;border-color:rgba(255,255,255,.08)!important;box-shadow:0 -18px 60px rgba(0,0,0,.68)!important}
+.sheet-handle{margin:10px auto 14px!important}
+.login-welcome h1{font-size:22px!important;margin-bottom:6px!important}
+.login-sub{max-width:300px!important;margin-bottom:16px!important;font-size:12.5px!important;line-height:1.5!important}
+.role-choice{gap:12px!important;margin-bottom:14px!important}
+.role-card{min-height:78px!important;border-radius:18px!important;justify-content:flex-start!important;padding:14px 16px!important;font-size:13px!important;text-align:left!important}
+.role-card.active{background:#fff!important}
+html[data-theme="dark"] .role-card.active{background:rgba(255,255,255,.05)!important}
+.hero-cta{min-height:54px!important;border-radius:16px!important;margin-bottom:10px!important;font-size:14.5px!important}
+.auth-cta{min-height:50px!important;border-radius:16px!important;font-size:14px!important}
+.welcome-divider{margin:16px 0 12px!important}
+.quick-socials{gap:14px!important;margin-bottom:14px!important}
+.quick-socials button{width:50px!important;height:50px!important;box-shadow:none!important}
+.trust-row{margin-top:4px!important;gap:10px!important}
+.trust-row strong{font-size:11px!important}
+.trust-row span{font-size:9.5px!important}
+.legal-mini{margin-top:14px!important}
+.auth-panel-head strong{font-size:17px!important}
+.soc-row{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:8px!important}
+.soc-btn{min-height:44px!important;padding:10px 8px!important;font-size:12.5px!important}
+.fi{font-size:14px!important}
+.btn-primary{min-height:54px!important;font-size:15px!important}
+@media (max-height:760px){
+  .hero-brand-lockup{top:calc(max(env(safe-area-inset-top),8px) + 34px)!important}
+  .hero-logo-img{width:92px!important;height:92px!important}
+  .hero-wordmark{font-size:34px!important}
+  #s-login .gal-info{bottom:calc(36svh + 12px)!important}
+  .login-sheet{padding-left:18px!important;padding-right:18px!important}
+  .login-welcome h1{font-size:20px!important}
+  .trust-row,.legal-mini{display:none!important}
+}
+@media (max-width:390px){
+  .hero-wordmark{font-size:34px!important}
+  .hero-logo-img{width:90px!important;height:90px!important}
+  #s-login .gal-info{bottom:calc(41svh + 12px)!important}
+}
+
+
+/* ══════════════════════════════════════
+   PROPIX v10 login polish
+   ══════════════════════════════════════ */
+#s-login .gal-slide .hero-brand-lockup{display:none!important}
+.login-hero-static{position:absolute;left:0;right:0;top:calc(max(env(safe-area-inset-top),10px) + 42px);z-index:18;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;text-align:center;padding:0 28px}
+.login-hero-static .hero-logo-shell{width:108px;height:108px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;filter:drop-shadow(0 14px 22px rgba(0,0,0,.16))}
+.login-hero-static .hero-logo-shell img{width:100%;height:100%;object-fit:contain}
+.login-hero-static .hero-wordmark2{font-family:var(--f-display);font-size:34px;line-height:1;font-weight:800;letter-spacing:.05em;color:#10253A}
+.login-hero-static .hero-hq2{display:inline-flex;align-items:center;gap:10px;margin-top:6px;font-family:var(--f-display);font-size:23px;font-weight:800;letter-spacing:.08em;color:var(--px-jade)}
+.login-hero-static .hero-hq2::before,.login-hero-static .hero-hq2::after{content:"";width:42px;height:2px;border-radius:2px;background:rgba(0,229,160,.88)}
+.login-hero-static .hero-tagline{margin-top:8px;font-size:12px;line-height:1.45;font-weight:600;color:rgba(16,37,58,.52);max-width:260px}
+html[data-theme="dark"] .login-hero-static .hero-wordmark2{color:#fff}
+html[data-theme="dark"] .login-hero-static .hero-tagline{color:rgba(255,255,255,.58)}
+#s-login .gal-info{bottom:calc(43svh + 12px)!important}
+.login-sheet{padding-top:2px!important;background:rgba(255,255,255,.985)!important}
+html[data-theme="dark"] .login-sheet{background:rgba(7,16,28,.97)!important}
+.login-welcome h1{font-size:21px!important}
+.login-sub{font-size:12.5px!important;max-width:285px!important}
+.role-card{min-height:76px!important;border-radius:17px!important}
+.hero-cta,.auth-cta,.btn-primary{font-weight:800!important}
+.quick-socials button,.soc-btn{box-shadow:0 8px 18px rgba(6,21,39,.05)!important}
+#welcome-divider{opacity:1}
+@media (max-height:740px){
+  .login-hero-static{top:calc(max(env(safe-area-inset-top),10px) + 28px)}
+  .login-hero-static .hero-logo-shell{width:94px;height:94px}
+  .login-hero-static .hero-wordmark2{font-size:30px}
+  .login-hero-static .hero-hq2{font-size:20px}
+  #s-login .gal-info{bottom:calc(39svh + 10px)!important}
+}
+
 </style>
 </head>
 <body>
@@ -2114,104 +2258,116 @@ async function logout() {
 }
 
 // ─── GALLERY ─────────────────────────
-(function initGallery() {
+(function initGalleryV9() {
   const wrap = document.getElementById('gal-wrap');
   const track = document.getElementById('gal-track');
-  const bars  = document.querySelectorAll('.gal-bar');
-  const sheet = document.getElementById('login-sheet');
-  const handle= document.getElementById('sheet-handle');
-  if (!track || !wrap) return;
+  const bars  = [...document.querySelectorAll('.gal-bar')];
+  if (!wrap || !track) return;
 
   const slides = [...track.querySelectorAll('.gal-slide')];
-  const total  = slides.length;
-  let cur = 0, startX = 0, startY = 0, dx = 0;
-  let dragging = false, pointerId = null, autoTmr = null;
+  const total = slides.length;
+  let cur = 0;
+  let startX = 0;
+  let deltaX = 0;
+  let dragging = false;
+  let auto = null;
 
-  // Make background images feel instant on the first view.
-  slides.slice(0, 2).forEach(slide => {
-    const img = slide.querySelector('img');
-    if (img) { img.loading = 'eager'; img.decoding = 'async'; }
-  });
-  slides.slice(2).forEach(slide => {
-    const img = slide.querySelector('img');
-    if (img) { img.loading = 'lazy'; img.decoding = 'async'; }
-  });
-
-  function setX(px, animated = true) {
-    track.classList.toggle('dragging', !animated);
-    track.style.transform = `translate3d(${px}px,0,0)`;
+  function width() {
+    return wrap.clientWidth || window.innerWidth || 390;
   }
 
-  function goTo(n, restart = true) {
-    bars[cur]?.classList.remove('on');
-    bars[cur]?.classList.add('done');
-    slides[cur]?.classList.remove('on');
-    cur = ((n % total) + total) % total;
+  function setVisualState() {
+    slides.forEach((s, i) => s.classList.toggle('on', i === cur));
     bars.forEach((b, i) => {
       b.classList.toggle('on', i === cur);
       b.classList.toggle('done', i < cur);
+      if (i > cur) b.classList.remove('done');
     });
-    slides[cur]?.classList.add('on');
-    setX(-cur * window.innerWidth, true);
-    if (restart) startAuto();
   }
 
-  function startAuto() {
-    clearInterval(autoTmr);
-    autoTmr = setInterval(() => goTo(cur + 1, false), 5200);
+  function render(animated = true) {
+    track.classList.toggle('dragging', !animated || dragging);
+    track.style.transition = animated && !dragging ? 'transform .38s cubic-bezier(.22,.61,.36,1)' : 'none';
+    const x = (-cur * width()) + (dragging ? deltaX : 0);
+    track.style.transform = `translate3d(${x}px,0,0)`;
   }
 
-  function endDrag(clientX) {
-    if (!dragging) return;
+  function restartAuto() {
+    clearInterval(auto);
+    auto = setInterval(() => goTo(cur + 1, true), 4800);
+  }
+
+  function goTo(next, animated = true) {
+    cur = ((next % total) + total) % total;
     dragging = false;
-    if (pointerId !== null && wrap.hasPointerCapture?.(pointerId)) wrap.releasePointerCapture(pointerId);
-    pointerId = null;
-    const threshold = Math.min(90, Math.max(42, window.innerWidth * 0.12));
-    if (Math.abs(clientX - startX) > threshold) goTo(clientX < startX ? cur + 1 : cur - 1);
-    else setX(-cur * window.innerWidth, true);
-    dx = 0;
-    startAuto();
+    deltaX = 0;
+    setVisualState();
+    render(animated);
+    restartAuto();
   }
+
+  function onStart(clientX, target) {
+    if (target && target.closest && target.closest('.login-sheet')) return;
+    dragging = true;
+    startX = clientX;
+    deltaX = 0;
+    clearInterval(auto);
+    render(false);
+  }
+
+  function onMove(clientX) {
+    if (!dragging) return;
+    deltaX = clientX - startX;
+    render(false);
+  }
+
+  function onEnd(clientX) {
+    if (!dragging) return;
+    const moved = clientX - startX;
+    const threshold = Math.max(38, Math.min(88, width() * 0.12));
+    dragging = false;
+    if (Math.abs(moved) > threshold) {
+      cur = moved < 0 ? cur + 1 : cur - 1;
+      cur = ((cur % total) + total) % total;
+    }
+    deltaX = 0;
+    setVisualState();
+    render(true);
+    restartAuto();
+  }
+
+  wrap.addEventListener('touchstart', e => onStart(e.touches[0].clientX, e.target), { passive: true });
+  wrap.addEventListener('touchmove', e => onMove(e.touches[0].clientX), { passive: true });
+  wrap.addEventListener('touchend', e => onEnd((e.changedTouches[0] || e.touches[0] || { clientX: startX }).clientX), { passive: true });
 
   wrap.addEventListener('pointerdown', e => {
-    if (e.target.closest?.('.login-sheet')) return;
-    pointerId = e.pointerId;
-    startX = e.clientX; startY = e.clientY; dx = 0;
-    dragging = true;
-    clearInterval(autoTmr);
-    wrap.setPointerCapture?.(pointerId);
-    setX(-cur * window.innerWidth, false);
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') onStart(e.clientX, e.target);
+  });
+  wrap.addEventListener('pointermove', e => {
+    if ((e.pointerType === 'mouse' || e.pointerType === 'pen') && dragging) onMove(e.clientX);
+  });
+  wrap.addEventListener('pointerup', e => {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') onEnd(e.clientX);
+  });
+  wrap.addEventListener('pointercancel', e => {
+    if (e.pointerType === 'mouse' || e.pointerType === 'pen') onEnd(e.clientX || startX);
   });
 
-  wrap.addEventListener('pointermove', e => {
-    if (!dragging || (pointerId !== null && e.pointerId !== pointerId)) return;
-    dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    if (Math.abs(dx) > Math.abs(dy) + 6) {
-      e.preventDefault();
-      setX(-cur * window.innerWidth + dx, false);
-    }
-  }, { passive: false });
+  const galleryBtn = document.querySelector('.login-gallery-btn');
+  galleryBtn?.addEventListener('click', () => goTo(cur + 1, true));
+  window.addEventListener('resize', () => render(false), { passive: true });
 
-  wrap.addEventListener('pointerup', e => endDrag(e.clientX));
-  wrap.addEventListener('pointercancel', e => endDrag(e.clientX || startX));
-  window.addEventListener('resize', () => setX(-cur * window.innerWidth, true), { passive: true });
+  slides.forEach((slide, idx) => {
+    const img = slide.querySelector('img');
+    if (!img) return;
+    img.loading = idx < 2 ? 'eager' : 'lazy';
+    img.decoding = 'async';
+    img.draggable = false;
+  });
 
-  // Sheet drag to expand/collapse
-  let sheetY = 0, sheetDragging = false;
-  if (handle) {
-    handle.addEventListener('touchstart', e => { sheetY = e.touches[0].clientY; sheetDragging = true; }, { passive: true });
-    handle.addEventListener('touchend', e => {
-      if (!sheetDragging) return;
-      sheetDragging = false;
-      const dy = e.changedTouches[0].clientY - sheetY;
-      if (dy < -30) sheet?.classList.add('expanded');
-      else if (dy > 30) sheet?.classList.remove('expanded');
-    }, { passive: true });
-    handle.addEventListener('click', () => sheet?.classList.toggle('expanded'));
-  }
-
-  startAuto();
+  setVisualState();
+  render(false);
+  restartAuto();
 })();
 
 // ─── AUTH TAB SWITCH ─────────────────
@@ -3484,6 +3640,61 @@ window.enterPropixDemo = function(){
   if(!localStorage.getItem('px-theme-v8')){
     document.documentElement.setAttribute('data-theme','light');
   }
+})();
+
+
+
+// ─── PROPIX v9: stronger login CTA + reliable swipe ─────────────────
+(function finalizeLoginV9(){
+  const saved = localStorage.getItem('px-theme-v9') || localStorage.getItem('px-theme-v8');
+  document.documentElement.setAttribute('data-theme', saved === 'dark' ? 'dark' : 'light');
+  const originalToggle = window.toggleTheme;
+  window.toggleTheme = function(){
+    if (typeof originalToggle === 'function') originalToggle();
+    localStorage.setItem('px-theme-v9', document.documentElement.getAttribute('data-theme') || 'light');
+  };
+
+  const galleryBtn = document.querySelector('.login-gallery-btn');
+  galleryBtn?.setAttribute('title', 'Siguiente propiedad');
+
+  const themeBtn = document.querySelector('.login-theme-btn');
+  themeBtn?.setAttribute('title', 'Cambiar entre modo claro y oscuro');
+
+  // Reduce accidental photo-mode behavior on login; keep focus on swipe + auth.
+  const screen = document.getElementById('s-login');
+  if (screen) screen.classList.remove('photo-mode');
+})();
+
+
+
+// ─── PROPIX v10 login cleanup ─────────────────
+(function finalizeLoginV10(){
+  const wrap = document.getElementById('gal-wrap');
+  if (wrap && !document.getElementById('login-hero-static')) {
+    const hero = document.createElement('div');
+    hero.id = 'login-hero-static';
+    hero.className = 'login-hero-static';
+    hero.innerHTML = `
+      <div class="hero-logo-shell"><img src="img/logo.png" alt="Propix"></div>
+      <div class="hero-wordmark2">PROPIX</div>
+      <div class="hero-hq2">HQ</div>
+      <div class="hero-tagline">Tu próximo hogar, a un swipe de distancia.</div>
+    `;
+    wrap.appendChild(hero);
+  }
+
+  const sheet = document.getElementById('login-sheet');
+  const panel = document.getElementById('auth-panel');
+  const welcome = document.getElementById('login-welcome');
+  sheet?.classList.remove('auth-open','expanded');
+  panel?.setAttribute('aria-hidden','true');
+  if (welcome) welcome.style.display = '';
+
+  const galleryBtn = document.querySelector('.login-gallery-btn');
+  galleryBtn?.setAttribute('title', 'Siguiente propiedad');
+
+  // Make sure the default screen is the welcome teaser, not the auth form.
+  window.backToWelcome?.();
 })();
 
 </script>
