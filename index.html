@@ -68,6 +68,59 @@
   window.backToWelcome?.();
 })();
 
+
+// ─── PROPIX v11 — premium interaction layer ─────────────────
+(function finalizeLoginV11(){
+  const sheet = document.getElementById('login-sheet');
+  const screen = document.getElementById('s-login');
+  const cards = document.querySelectorAll('.role-card');
+
+  // Always open on the premium welcome, not inside the form.
+  try { window.backToWelcome?.(); } catch(_) {}
+  screen?.classList.remove('photo-mode');
+
+  // Subtle 3D tilt on role cards for real app feel.
+  cards.forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - .5) * 7;
+      const y = ((e.clientY - r.top) / r.height - .5) * -7;
+      card.style.transform = `perspective(700px) rotateX(${y}deg) rotateY(${x}deg) translateY(-1px)`;
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Make theme button feel intentional.
+  const oldToggle = window.toggleTheme;
+  window.toggleTheme = function(){
+    if (typeof oldToggle === 'function') oldToggle();
+    const mode = document.documentElement.getAttribute('data-theme') || 'light';
+    localStorage.setItem('px-theme-v11', mode);
+    try { navigator.vibrate?.(10); } catch(_) {}
+  };
+
+  const saved = localStorage.getItem('px-theme-v11');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+
+  // Small haptic on main CTA and role selection.
+  ['.hero-cta','.auth-cta','.btn-primary','.role-card','.quick-socials button'].forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.addEventListener('click', () => {
+        try { navigator.vibrate?.(8); } catch(_) {}
+      }, { passive:true });
+    });
+  });
+
+  // Keep sheet clean.
+  if(sheet){
+    sheet.classList.remove('expanded');
+  }
+})();
+
 </script>
 <style>
 /* ══════════════════════════════════════
@@ -1702,6 +1755,441 @@ html[data-theme="dark"] .login-sheet{background:rgba(7,16,28,.97)!important}
   .login-hero-static .hero-wordmark2{font-size:30px}
   .login-hero-static .hero-hq2{font-size:20px}
   #s-login .gal-info{bottom:calc(39svh + 10px)!important}
+}
+
+
+/* ══════════════════════════════════════
+   PROPIX v11 — Real App Premium Login
+   Brillos controlados + 3D + motion
+   ══════════════════════════════════════ */
+
+:root{
+  --px-neon:#20F2B1;
+  --px-neon2:#5CFFD8;
+  --px-emerald:#00D993;
+  --px-deep:#071425;
+  --px-deeper:#020814;
+  --px-light-card:#FFFFFF;
+  --px-light-soft:#F7FAFD;
+  --px-line-soft:rgba(12,30,48,.12);
+  --px-real-shadow:0 24px 70px rgba(2,12,24,.22);
+}
+
+@keyframes pxLogoFloat{
+  0%,100%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(0,-7px,0) scale(1.018)}
+}
+@keyframes pxGlowPulse{
+  0%,100%{opacity:.55;transform:scale(.95)}
+  50%{opacity:.92;transform:scale(1.08)}
+}
+@keyframes pxButtonShine{
+  0%{transform:translateX(-130%) skewX(-18deg)}
+  55%,100%{transform:translateX(160%) skewX(-18deg)}
+}
+@keyframes pxSheetIn{
+  from{opacity:0;transform:translate3d(0,42px,0) scale(.985)}
+  to{opacity:1;transform:translate3d(0,0,0) scale(1)}
+}
+@keyframes pxCardLift{
+  from{opacity:0;transform:translate3d(0,15px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes pxPriceGlow{
+  0%,100%{text-shadow:0 0 10px rgba(32,242,177,.18)}
+  50%{text-shadow:0 0 24px rgba(32,242,177,.42)}
+}
+
+/* Overall stage */
+#s-login{
+  background:
+    radial-gradient(circle at 50% 18%,rgba(32,242,177,.17),transparent 31%),
+    linear-gradient(180deg,#EDF7FF 0%,#F8FBFF 100%)!important;
+  overflow:hidden!important;
+  perspective:1200px;
+}
+html[data-theme="dark"] #s-login{
+  background:
+    radial-gradient(circle at 50% 18%,rgba(32,242,177,.22),transparent 30%),
+    radial-gradient(circle at 20% 75%,rgba(45,126,255,.12),transparent 34%),
+    linear-gradient(180deg,#020711 0%,#071425 100%)!important;
+}
+
+/* Gallery should feel native, not laggy */
+#s-login .gal-wrap{
+  touch-action:pan-y!important;
+  background:#EAF5FF!important;
+  transform:translateZ(0);
+  contain:layout paint;
+}
+#s-login .gal-track{
+  will-change:transform!important;
+  transform-style:preserve-3d;
+}
+#s-login .gal-slide{
+  width:100%!important;
+  transform:translateZ(0);
+  backface-visibility:hidden;
+}
+#s-login .gal-slide img{
+  transform:scale(1.012)!important;
+  transition:transform 6.5s ease, filter .45s ease!important;
+  filter:saturate(1.08) contrast(1.05) brightness(1.02)!important;
+}
+#s-login .gal-slide.on img{
+  transform:scale(1.055)!important;
+}
+#s-login .gal-slide::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 54% 19%,rgba(255,255,255,.48),transparent 18%),
+    linear-gradient(180deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,.08) 30%,rgba(0,0,0,0) 52%,rgba(0,0,0,.52) 84%,rgba(0,0,0,.72) 100%);
+}
+html[data-theme="dark"] #s-login .gal-slide::before{
+  background:
+    radial-gradient(circle at 52% 19%,rgba(32,242,177,.19),transparent 24%),
+    linear-gradient(180deg,rgba(0,0,0,.10) 0%,rgba(0,0,0,.02) 28%,rgba(0,0,0,.24) 58%,rgba(0,0,0,.80) 100%);
+}
+#s-login .gal-slide::after{
+  background:linear-gradient(90deg,rgba(255,255,255,.13),transparent 20%,transparent 80%,rgba(255,255,255,.10))!important;
+  opacity:.65;
+}
+
+/* Story bars, cleaner and premium */
+#s-login .gal-bars{
+  left:28px!important;
+  right:28px!important;
+  top:max(env(safe-area-inset-top),12px)!important;
+  gap:8px!important;
+  z-index:50!important;
+}
+#s-login .gal-bar{
+  height:3px!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.58)!important;
+  box-shadow:0 1px 10px rgba(0,0,0,.12)!important;
+}
+#s-login .gal-bar-fill{
+  background:linear-gradient(90deg,var(--px-neon),var(--px-neon2))!important;
+  box-shadow:0 0 14px rgba(32,242,177,.65);
+}
+
+/* Top utility buttons */
+.login-mini-btn{
+  top:calc(max(env(safe-area-inset-top),12px) + 32px)!important;
+  width:43px!important;
+  height:43px!important;
+  background:rgba(255,255,255,.74)!important;
+  border:1px solid rgba(255,255,255,.70)!important;
+  color:#0B2338!important;
+  box-shadow:
+    0 12px 26px rgba(4,17,31,.13),
+    inset 0 1px 0 rgba(255,255,255,.8)!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+  transition:transform .18s cubic-bezier(.34,1.4,.64,1),box-shadow .18s ease!important;
+}
+.login-mini-btn:active{
+  transform:scale(.90) translateY(1px)!important;
+}
+html[data-theme="dark"] .login-mini-btn{
+  background:rgba(5,15,29,.50)!important;
+  border-color:rgba(255,255,255,.16)!important;
+  color:#fff!important;
+  box-shadow:0 14px 30px rgba(0,0,0,.38),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+
+/* Static brand, 3D but controlled */
+.login-hero-static{
+  top:calc(max(env(safe-area-inset-top),12px) + 58px)!important;
+  z-index:24!important;
+  animation:pxCardLift .55s ease both;
+}
+.login-hero-static::before{
+  content:"";
+  position:absolute;
+  width:160px;
+  height:160px;
+  border-radius:50%;
+  top:-16px;
+  left:50%;
+  transform:translateX(-50%);
+  background:radial-gradient(circle,rgba(32,242,177,.34),rgba(32,242,177,.10) 38%,transparent 67%);
+  filter:blur(8px);
+  animation:pxGlowPulse 3.5s ease-in-out infinite;
+  pointer-events:none;
+}
+.login-hero-static .hero-logo-shell{
+  position:relative;
+  width:112px!important;
+  height:112px!important;
+  margin-bottom:8px!important;
+  animation:pxLogoFloat 4.2s ease-in-out infinite;
+  filter:
+    drop-shadow(0 20px 26px rgba(0,0,0,.18))
+    drop-shadow(0 0 18px rgba(32,242,177,.22))!important;
+}
+.login-hero-static .hero-logo-shell img{
+  transform:translateZ(28px);
+}
+.login-hero-static .hero-wordmark2{
+  position:relative;
+  font-size:38px!important;
+  letter-spacing:.055em!important;
+  color:#0A2037!important;
+  text-shadow:0 2px 0 rgba(255,255,255,.38),0 16px 24px rgba(4,20,35,.15);
+}
+html[data-theme="dark"] .login-hero-static .hero-wordmark2{
+  color:#fff!important;
+  text-shadow:0 0 24px rgba(255,255,255,.18),0 18px 30px rgba(0,0,0,.55);
+}
+.login-hero-static .hero-hq2{
+  color:var(--px-neon)!important;
+  text-shadow:0 0 18px rgba(32,242,177,.35);
+}
+.login-hero-static .hero-tagline{
+  color:rgba(10,32,55,.60)!important;
+  font-weight:700!important;
+}
+html[data-theme="dark"] .login-hero-static .hero-tagline{
+  color:rgba(255,255,255,.62)!important;
+}
+
+/* Property overlay */
+#s-login .gal-info{
+  z-index:20!important;
+  bottom:calc(42svh + 14px)!important;
+  left:24px!important;
+  right:24px!important;
+  animation:pxCardLift .6s ease .12s both!important;
+}
+.hero-loc{
+  background:rgba(8,19,31,.44)!important;
+  border:1px solid rgba(255,255,255,.18)!important;
+  box-shadow:0 12px 28px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.18);
+}
+.hero-save{
+  background:rgba(8,19,31,.46)!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+  box-shadow:0 14px 30px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.16);
+  transition:transform .18s var(--spring),background .18s;
+}
+.hero-save:active{transform:scale(.88)}
+.gal-name{
+  font-size:20px!important;
+  font-weight:800!important;
+  text-shadow:0 8px 22px rgba(0,0,0,.40)!important;
+}
+.gal-price{
+  font-size:20px!important;
+  color:var(--px-neon)!important;
+  animation:pxPriceGlow 2.8s ease-in-out infinite;
+}
+
+/* Sheet: more real, less carton */
+.login-sheet{
+  left:0!important;
+  right:0!important;
+  bottom:0!important;
+  border-radius:34px 34px 0 0!important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.985),rgba(255,255,255,.965))!important;
+  border:1px solid rgba(7,22,39,.08)!important;
+  box-shadow:
+    0 -22px 70px rgba(2,12,24,.18),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+  transform:translateZ(40px);
+  animation:pxSheetIn .5s cubic-bezier(.18,.8,.25,1) both;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+}
+html[data-theme="dark"] .login-sheet{
+  background:
+    radial-gradient(circle at 50% 0%,rgba(32,242,177,.08),transparent 30%),
+    linear-gradient(180deg,rgba(9,20,34,.985),rgba(4,10,20,.975))!important;
+  border-color:rgba(255,255,255,.10)!important;
+  box-shadow:
+    0 -24px 86px rgba(0,0,0,.74),
+    inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+.sheet-handle{
+  width:50px!important;
+  height:5px!important;
+  background:linear-gradient(90deg,rgba(120,133,146,.22),rgba(120,133,146,.52),rgba(120,133,146,.22))!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.48);
+}
+
+/* Welcome text */
+.login-welcome h1{
+  font-size:22px!important;
+  letter-spacing:-.045em!important;
+}
+.login-welcome h1 span{
+  background:linear-gradient(135deg,var(--px-emerald),var(--px-neon2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent!important;
+  filter:drop-shadow(0 0 10px rgba(32,242,177,.22));
+}
+.login-sub{
+  color:rgba(87,101,116,.92)!important;
+  font-weight:650!important;
+}
+html[data-theme="dark"] .login-sub{color:rgba(255,255,255,.64)!important}
+
+/* Role cards 3D */
+.role-card{
+  position:relative;
+  overflow:hidden;
+  min-height:80px!important;
+  border-radius:20px!important;
+  background:
+    linear-gradient(180deg,#FFFFFF,#F8FBFE)!important;
+  box-shadow:
+    0 14px 28px rgba(6,21,39,.07),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+  transform:translateZ(0);
+  transition:transform .18s var(--spring),box-shadow .18s ease,border-color .18s ease!important;
+}
+.role-card::after{
+  content:"";
+  position:absolute;
+  inset:-40% auto auto -60%;
+  width:70%;
+  height:180%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:rotate(18deg);
+  opacity:0;
+}
+.role-card.active::after{
+  opacity:1;
+  animation:pxButtonShine 2.8s ease-in-out infinite;
+}
+.role-card:active{
+  transform:scale(.975) translateY(1px)!important;
+}
+.role-card.active{
+  border-color:var(--px-neon)!important;
+  box-shadow:
+    0 16px 34px rgba(0,229,160,.13),
+    0 0 0 4px rgba(0,229,160,.10),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+}
+html[data-theme="dark"] .role-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.035))!important;
+  box-shadow:0 18px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.role-ico{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 0 18px rgba(32,242,177,.12);
+}
+
+/* CTA: real premium button */
+.hero-cta,.btn-primary{
+  position:relative;
+  overflow:hidden;
+  min-height:58px!important;
+  border-radius:18px!important;
+  background:
+    linear-gradient(135deg,#25F0B0 0%,#04D68F 55%,#13C683 100%)!important;
+  color:#041422!important;
+  box-shadow:
+    0 8px 0 rgba(0,148,101,.58),
+    0 22px 42px rgba(0,229,160,.30),
+    inset 0 1px 0 rgba(255,255,255,.36)!important;
+  transition:transform .12s ease,box-shadow .12s ease,filter .18s ease!important;
+}
+.hero-cta::before,.btn-primary::before{
+  content:"";
+  position:absolute;
+  top:-25%;
+  bottom:-25%;
+  width:42%;
+  left:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.48),transparent);
+  animation:pxButtonShine 3.2s ease-in-out infinite;
+}
+.hero-cta:active,.btn-primary:active{
+  transform:translateY(4px)!important;
+  box-shadow:
+    0 3px 0 rgba(0,148,101,.72),
+    0 12px 30px rgba(0,229,160,.22),
+    inset 0 1px 0 rgba(255,255,255,.36)!important;
+}
+.cta-round{
+  background:#061527!important;
+  color:var(--px-neon)!important;
+  box-shadow:0 10px 22px rgba(3,12,21,.28),inset 0 1px 0 rgba(255,255,255,.12)!important;
+}
+.cta-round svg{stroke:currentColor!important}
+
+/* Secondary button */
+.auth-cta{
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.98),rgba(248,251,254,.98))!important;
+  box-shadow:
+    0 10px 24px rgba(6,21,39,.06),
+    inset 0 1px 0 rgba(255,255,255,.85)!important;
+}
+html[data-theme="dark"] .auth-cta{
+  background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.025))!important;
+  border-color:rgba(255,255,255,.13)!important;
+}
+
+/* Social buttons */
+.quick-socials button,.soc-btn{
+  transition:transform .18s var(--spring),box-shadow .18s ease!important;
+}
+.quick-socials button:active,.soc-btn:active{
+  transform:scale(.92)!important;
+}
+.quick-socials button{
+  box-shadow:0 14px 28px rgba(6,21,39,.075),inset 0 1px 0 rgba(255,255,255,.82)!important;
+}
+html[data-theme="dark"] .quick-socials button{
+  background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.035))!important;
+  box-shadow:0 16px 30px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.08)!important;
+}
+
+/* Auth panel */
+.auth-panel-head,.sheet-tabs,.soc-row,.form-div,.fg,.form-extras,.btn-primary,.sheet-footer{
+  animation:pxCardLift .42s ease both;
+}
+.sheet-tabs{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5)!important;
+}
+html[data-theme="dark"] .sheet-tabs{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)!important;
+}
+.fi{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65)!important;
+}
+html[data-theme="dark"] .fi{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important;
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+@media (max-height:760px){
+  .login-hero-static{top:calc(max(env(safe-area-inset-top),10px) + 30px)!important}
+  .login-hero-static .hero-logo-shell{width:90px!important;height:90px!important}
+  .login-hero-static .hero-wordmark2{font-size:31px!important}
+  .login-hero-static .hero-hq2{font-size:19px!important}
+  #s-login .gal-info{bottom:calc(38svh + 10px)!important}
+  .login-sheet{padding-left:18px!important;padding-right:18px!important}
+  .login-sub,.trust-row,.legal-mini{display:none!important}
+  .role-card{min-height:72px!important}
+  .hero-cta{min-height:54px!important}
+}
+@media (max-width:380px){
+  .login-hero-static .hero-logo-shell{width:88px!important;height:88px!important}
+  .login-hero-static .hero-wordmark2{font-size:30px!important}
+  .login-hero-static .hero-tagline{font-size:11px!important}
+  .role-card{padding:12px!important;font-size:12px!important}
 }
 
 </style>
@@ -3695,6 +4183,59 @@ window.enterPropixDemo = function(){
 
   // Make sure the default screen is the welcome teaser, not the auth form.
   window.backToWelcome?.();
+})();
+
+
+// ─── PROPIX v11 — premium interaction layer ─────────────────
+(function finalizeLoginV11(){
+  const sheet = document.getElementById('login-sheet');
+  const screen = document.getElementById('s-login');
+  const cards = document.querySelectorAll('.role-card');
+
+  // Always open on the premium welcome, not inside the form.
+  try { window.backToWelcome?.(); } catch(_) {}
+  screen?.classList.remove('photo-mode');
+
+  // Subtle 3D tilt on role cards for real app feel.
+  cards.forEach(card => {
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width - .5) * 7;
+      const y = ((e.clientY - r.top) / r.height - .5) * -7;
+      card.style.transform = `perspective(700px) rotateX(${y}deg) rotateY(${x}deg) translateY(-1px)`;
+    });
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Make theme button feel intentional.
+  const oldToggle = window.toggleTheme;
+  window.toggleTheme = function(){
+    if (typeof oldToggle === 'function') oldToggle();
+    const mode = document.documentElement.getAttribute('data-theme') || 'light';
+    localStorage.setItem('px-theme-v11', mode);
+    try { navigator.vibrate?.(10); } catch(_) {}
+  };
+
+  const saved = localStorage.getItem('px-theme-v11');
+  if (saved === 'dark' || saved === 'light') {
+    document.documentElement.setAttribute('data-theme', saved);
+  }
+
+  // Small haptic on main CTA and role selection.
+  ['.hero-cta','.auth-cta','.btn-primary','.role-card','.quick-socials button'].forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.addEventListener('click', () => {
+        try { navigator.vibrate?.(8); } catch(_) {}
+      }, { passive:true });
+    });
+  });
+
+  // Keep sheet clean.
+  if(sheet){
+    sheet.classList.remove('expanded');
+  }
 })();
 
 </script>
