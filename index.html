@@ -5,143 +5,154 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<title>Propix HQ — Login</title>
+<meta name="theme-color" content="#030B16"/>
+<title>Propix HQ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet"/>
 <style>
-/* ══ TOKENS ══ */
-:root {
-  --g:#1DB96B; --gd:#178A50; --gp:#126E40;
-  --gg:rgba(29,185,107,.24); --gdi:rgba(29,185,107,.12); --gdi2:rgba(29,185,107,.06);
-  --jade:#00E5A0; --jd:#00B87D; --jg:rgba(0,229,160,.30); --jdi:rgba(0,229,160,.10);
-  --f-d:'Space Grotesk',sans-serif; --f-u:'Plus Jakarta Sans',sans-serif;
+/* ── TOKENS ── */
+:root{
+  --g:#1DB96B; --gd:#148F50; --gp:#0E6B3C;
+  --gg:rgba(29,185,107,.24); --gdi:rgba(29,185,107,.12);
+  --jade:#00E5A0; --jd:#00B87D; --jg:rgba(0,229,160,.32); --jdi:rgba(0,229,160,.10);
+  --f-d:'Space Grotesk',sans-serif;
+  --f-u:'Plus Jakarta Sans',sans-serif;
   --ease:cubic-bezier(.4,0,.2,1);
   --spring:cubic-bezier(.34,1.56,.64,1);
   --eout:cubic-bezier(0,0,.2,1);
-  --app-h:100svh;
-  /* sheet light */
-  --sh-bg:rgba(255,255,255,.82);
-  --sh-bd:rgba(255,255,255,.60);
-  --sh-tx:#08182C; --sh-muted:#5A7088;
-  --sh-card:rgba(255,255,255,.70);
-  --sh-card-bd:rgba(8,24,44,.09);
-  --sh-fi-bg:rgba(8,24,44,.045);
-  --sh-fi-bd:rgba(8,24,44,.12);
-  --sh-fi-focus:rgba(0,229,160,.14);
-  --sh-shadow:0 -2px 0 rgba(255,255,255,.80),0 -32px 80px rgba(4,12,26,.18);
+  /* Sheet */
+  --sh-bg:rgba(252,253,255,.90);
+  --sh-bd:rgba(255,255,255,.72);
+  --sh-tx:#07162A; --sh-mu:#5B7490;
+  --sh-fi:rgba(8,22,44,.045); --sh-fi-bd:rgba(8,22,44,.11);
+  --sh-card:rgba(255,255,255,.72); --sh-card-bd:rgba(8,22,44,.08);
 }
-[data-theme="dark"] {
-  --sh-bg:rgba(8,16,28,.88);
+[data-theme="dark"]{
+  --sh-bg:rgba(7,14,26,.90);
   --sh-bd:rgba(255,255,255,.10);
-  --sh-tx:#FFFFFF; --sh-muted:rgba(255,255,255,.52);
-  --sh-card:rgba(255,255,255,.06);
-  --sh-card-bd:rgba(255,255,255,.11);
-  --sh-fi-bg:rgba(255,255,255,.07);
-  --sh-fi-bd:rgba(255,255,255,.13);
-  --sh-fi-focus:rgba(0,229,160,.12);
-  --sh-shadow:0 -1px 0 rgba(255,255,255,.07),0 -32px 80px rgba(0,0,0,.82);
+  --sh-tx:#FFFFFF; --sh-mu:rgba(255,255,255,.50);
+  --sh-fi:rgba(255,255,255,.07); --sh-fi-bd:rgba(255,255,255,.13);
+  --sh-card:rgba(255,255,255,.06); --sh-card-bd:rgba(255,255,255,.10);
 }
 
-/* ══ RESET ══ */
+/* ── RESET ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{height:100%;overflow:hidden;-webkit-text-size-adjust:100%;background:#030B16}
+html,body{
+  height:100%; width:100%;
+  overflow:hidden;
+  background:#030B16;
+  -webkit-text-size-adjust:100%;
+}
 body{
-  height:var(--app-h);
   font-family:var(--f-u);
   -webkit-font-smoothing:antialiased;
-  overflow:hidden;
-  overscroll-behavior:none;
+  -moz-osx-font-smoothing:grayscale;
   position:fixed; inset:0;
-  -webkit-user-select:none; user-select:none;
+  /* DO NOT add user-select:none here — breaks inputs */
 }
-input,textarea{-webkit-user-select:text;user-select:text;font-family:var(--f-u)}
-button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:pointer;border:none;background:none}
+button{
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  cursor:pointer; border:none; background:none;
+  font-family:var(--f-u);
+}
+input{
+  font-family:var(--f-u);
+  -webkit-appearance:none;
+  appearance:none;
+}
 ::-webkit-scrollbar{display:none}
+*{-webkit-overflow-scrolling:touch}
 
-/* ══ KEYFRAMES ══ */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes shine{from{transform:translateX(-160%) skewX(-20deg)}to{transform:translateX(200%) skewX(-20deg)}}
-@keyframes logoFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
-@keyframes haloBreath{0%,100%{opacity:.45;transform:scale(.85)}50%{opacity:.80;transform:scale(1.10)}}
-@keyframes sheetIn{from{transform:translateY(60px);opacity:0}to{transform:translateY(0);opacity:1}}
+/* ── KEYFRAMES ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shine{0%{transform:translateX(-160%) skewX(-22deg)}100%{transform:translateX(220%) skewX(-22deg)}}
+@keyframes logoFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes halo{0%,100%{opacity:.4;transform:scale(.82)}50%{opacity:.9;transform:scale(1.14)}}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes slideTabPill{} /* handled via JS class */
-@keyframes checkPop{0%{transform:scale(0) rotate(-15deg);opacity:0}60%{transform:scale(1.2) rotate(5deg)}100%{transform:scale(1) rotate(0);opacity:1}}
-@keyframes priceGlow{0%,100%{text-shadow:0 0 12px rgba(0,229,160,.18)}50%{text-shadow:0 0 28px rgba(0,229,160,.50)}}
+@keyframes checkIn{0%{stroke-dashoffset:60;opacity:0}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes priceGlow{0%,100%{text-shadow:0 0 14px rgba(0,229,160,.18)}50%{text-shadow:0 0 30px rgba(0,229,160,.55)}}
+@keyframes barProg{from{right:100%}to{right:0}}
+@keyframes logoShine{
+  0%{background-position:-200% center}
+  40%,100%{background-position:200% center}
+}
 
-/* ══ GALLERY ══ */
-#gallery{
+/* ── GALLERY ── */
+#gal{
   position:fixed; inset:0; z-index:0;
-  overflow:hidden; touch-action:pan-y;
+  overflow:hidden;
+  touch-action:pan-y;
+  user-select:none; -webkit-user-select:none;
 }
 .g-track{
   display:flex; height:100%;
   will-change:transform;
   transform:translate3d(0,0,0);
-  transition:transform .48s cubic-bezier(.22,.60,.36,1);
 }
-.g-track.dragging{transition:none!important}
 .g-slide{
-  flex-shrink:0; width:100dvw; height:100%;
-  position:relative; overflow:hidden; background:#030B16;
+  flex-shrink:0; width:100vw; height:100%;
+  position:relative; overflow:hidden;
 }
 .g-slide img{
   position:absolute; inset:0;
   width:100%; height:100%;
-  object-fit:cover; object-position:center;
+  object-fit:cover; object-position:center top;
   transform:scale(1.08);
-  transition:transform 8s ease;
-  filter:saturate(1.10) contrast(1.05) brightness(.92);
+  transition:transform 7s ease;
+  filter:saturate(1.12) brightness(.88);
   backface-visibility:hidden;
+  pointer-events:none;
+  user-select:none; -webkit-user-select:none;
 }
 .g-slide.on img{transform:scale(1.01)}
-/* Overlay gradient */
 .g-slide::after{
   content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
-  background:
-    linear-gradient(180deg,
-      rgba(0,0,0,.18) 0%,
-      rgba(0,0,0,0) 28%,
-      rgba(0,0,0,.08) 50%,
-      rgba(0,0,0,.52) 74%,
-      rgba(0,0,0,.76) 88%,
-      rgba(0,0,0,.84) 100%
-    );
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.08) 0%,
+    rgba(0,0,0,0) 25%,
+    rgba(0,0,0,.04) 50%,
+    rgba(0,0,0,.54) 72%,
+    rgba(0,0,0,.80) 88%,
+    rgba(0,0,0,.88) 100%
+  );
 }
 [data-theme="dark"] .g-slide::after{
-  background:
-    linear-gradient(180deg,
-      rgba(3,11,22,.32) 0%,
-      rgba(0,0,0,.04) 30%,
-      rgba(0,0,0,.12) 52%,
-      rgba(0,0,0,.70) 80%,
-      rgba(3,11,22,.90) 100%
-    );
+  background:linear-gradient(to bottom,
+    rgba(3,11,22,.20) 0%,
+    rgba(0,0,0,.02) 26%,
+    rgba(0,0,0,.08) 54%,
+    rgba(0,0,0,.72) 80%,
+    rgba(3,11,22,.92) 100%
+  );
 }
 
-/* ── Progress bars */
+/* Progress bars */
 .g-bars{
-  position:fixed; top:max(env(safe-area-inset-top),14px);
-  left:20px; right:20px; z-index:30;
-  display:flex; gap:5px; pointer-events:none;
+  position:fixed;
+  top:max(env(safe-area-inset-top),14px);
+  left:18px; right:18px; z-index:30;
+  display:flex; gap:5px;
+  pointer-events:none;
 }
 .g-bar{
-  flex:1; height:2px; border-radius:999px;
-  background:rgba(255,255,255,.28); overflow:hidden; position:relative;
+  flex:1; height:2.5px; border-radius:99px;
+  background:rgba(255,255,255,.25); overflow:hidden; position:relative;
 }
-.g-bf{
+.g-bar-fill{
   position:absolute; inset:0 100% 0 0;
-  background:linear-gradient(90deg,rgba(255,255,255,.7),rgba(0,229,160,.9));
-  border-radius:999px;
+  background:linear-gradient(90deg,rgba(255,255,255,.65),var(--jade));
+  border-radius:99px;
 }
-.g-bar.done .g-bf{right:0; transition:none}
-.g-bar.on .g-bf{right:0; transition:right 5.2s linear}
+.g-bar.done .g-bar-fill{right:0}
+.g-bar.on .g-bar-fill{right:0;transition:right 5.2s linear}
 
-/* ── Top controls */
+/* Top buttons */
 .g-toprow{
   position:fixed;
-  top:calc(max(env(safe-area-inset-top),14px) + 18px);
+  top:calc(max(env(safe-area-inset-top),14px) + 22px);
   left:0; right:0; z-index:31;
   display:flex; justify-content:space-between;
   padding:0 18px; pointer-events:none;
@@ -149,45 +160,50 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:
 .top-btn{
   pointer-events:all;
   width:40px; height:40px; border-radius:50%;
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.32);
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.28);
   color:#fff;
   display:flex; align-items:center; justify-content:center;
-  backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-  box-shadow:0 4px 20px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.22);
-  transition:transform .18s var(--spring), background .18s;
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  box-shadow:0 4px 18px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.20);
+  transition:transform .18s var(--spring), opacity .18s;
+  -webkit-tap-highlight-color:transparent;
 }
-.top-btn:active{transform:scale(.86)}
-.top-btn:hover{background:rgba(255,255,255,.24)}
+.top-btn:active{transform:scale(.84); opacity:.8}
 .top-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.moon-i{display:none}
-[data-theme="dark"] .sun-i{display:none}
-[data-theme="dark"] .moon-i{display:block}
+.moon-ico{display:none}
+[data-theme="dark"] .sun-ico{display:none}
+[data-theme="dark"] .moon-ico{display:block}
 
-/* ── Slide info (floating property tag) */
+/* Slide info */
 .g-info{
   position:fixed; z-index:10;
   left:20px; right:20px;
-  bottom:calc(48svh + 14px);
-  pointer-events:none;
-  animation:fadeUp .6s var(--eout) .15s both;
-  color:#fff;
+  bottom:calc(48svh + 16px);
+  pointer-events:none; color:#fff;
+  animation:fadeUp .6s var(--eout) .2s both;
 }
 .g-loc{
   display:inline-flex; align-items:center; gap:6px;
-  padding:6px 12px; border-radius:999px;
-  background:rgba(8,18,30,.38);
+  padding:6px 12px; border-radius:99px;
+  background:rgba(6,14,28,.40);
   border:1px solid rgba(255,255,255,.18);
   backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   font-size:11.5px; font-weight:600; letter-spacing:.02em;
   margin-bottom:10px;
 }
-.g-loc-dot{width:6px;height:6px;border-radius:50%;background:var(--jade);box-shadow:0 0 8px var(--jg);flex-shrink:0}
+.g-dot{
+  width:6px; height:6px; border-radius:50%;
+  background:var(--jade);
+  box-shadow:0 0 8px var(--jg), 0 0 16px var(--jg);
+  flex-shrink:0;
+  animation:halo 2.8s ease-in-out infinite;
+}
 .g-pname{
   font-family:var(--f-d);
   font-size:22px; font-weight:800;
   letter-spacing:-.04em; line-height:1.1;
-  text-shadow:0 3px 18px rgba(0,0,0,.42);
+  text-shadow:0 2px 20px rgba(0,0,0,.44);
   margin-bottom:6px;
 }
 .g-pprice{
@@ -197,105 +213,162 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:
   animation:priceGlow 2.6s ease-in-out infinite;
 }
 
-/* ══ SHEET ══ */
+/* ── SHEET ── */
 #sheet{
-  position:fixed; left:0; right:0; bottom:0; z-index:40;
+  position:fixed; left:0; right:0; bottom:0; z-index:50;
   border-radius:32px 32px 0 0;
   background:var(--sh-bg);
-  border-top:1px solid var(--sh-bd);
-  backdrop-filter:blur(44px) saturate(1.6);
-  -webkit-backdrop-filter:blur(44px) saturate(1.6);
-  box-shadow:var(--sh-shadow);
-  /* height via JS */
-  will-change:transform;
-  transition:transform .44s var(--spring), max-height .44s var(--spring);
-  touch-action:pan-y;
-  overflow:hidden;
+  border-top:1.5px solid var(--sh-bd);
+  backdrop-filter:blur(48px) saturate(1.8);
+  -webkit-backdrop-filter:blur(48px) saturate(1.8);
+  box-shadow:
+    0 -2px 0 rgba(255,255,255,.65),
+    0 -32px 80px rgba(3,10,22,.20);
+  animation:sheetUp .56s cubic-bezier(.22,.68,.36,1) both;
+  /* CRITICAL: allow scroll inside */
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  /* Height states */
   max-height:52svh;
+  transition:max-height .42s cubic-bezier(.22,.68,.36,1);
 }
-#sheet.expanded{
-  max-height:calc(var(--app-h) - max(env(safe-area-inset-top),8px) - 8px);
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
+[data-theme="dark"] #sheet{
+  box-shadow:
+    0 -1px 0 rgba(255,255,255,.07),
+    0 -32px 80px rgba(0,0,0,.82);
 }
-#sheet.keyboard{
-  max-height:calc(var(--app-h) - max(env(safe-area-inset-top),8px) - 8px);
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
+#sheet.tall{max-height:calc(100svh - max(env(safe-area-inset-top),8px) - 8px)}
+
+/* Inner padding */
+.sh-inner{
+  padding:0 22px calc(max(env(safe-area-inset-bottom),20px) + 16px);
+  /* ALLOW user interaction */
+  touch-action:pan-y;
 }
-.sh-inner{padding:0 22px calc(max(env(safe-area-inset-bottom),20px) + 10px)}
 
 /* Handle */
 .sh-handle{
-  width:40px; height:4px; border-radius:999px;
-  background:rgba(128,148,168,.28);
-  margin:10px auto 18px;
-  touch-action:none; cursor:default;
+  width:40px; height:4px; border-radius:99px;
+  background:rgba(140,160,180,.28);
+  margin:12px auto 20px;
+  flex-shrink:0;
 }
 
-/* Brand block */
+/* ── BRAND ── */
 .sh-brand{
   display:flex; flex-direction:column;
-  align-items:center; gap:0; margin-bottom:22px;
+  align-items:center; margin-bottom:22px;
   position:relative;
 }
-.sh-brand::before{
-  content:''; position:absolute;
-  width:120px; height:120px; border-radius:50%;
-  top:-22px; left:50%; transform:translateX(-50%);
-  background:radial-gradient(circle,rgba(0,229,160,.32),rgba(0,229,160,.06) 48%,transparent 70%);
-  filter:blur(8px);
-  animation:haloBreath 3.6s ease-in-out infinite;
+/* Halo glow behind logo */
+.sh-halo{
+  position:absolute;
+  width:140px; height:140px; border-radius:50%;
+  top:-26px; left:50%; transform:translateX(-50%);
+  background:radial-gradient(
+    circle,
+    rgba(0,229,160,.38) 0%,
+    rgba(29,185,107,.18) 32%,
+    rgba(0,229,160,.06) 60%,
+    transparent 72%
+  );
+  filter:blur(10px);
+  animation:halo 3.8s ease-in-out infinite;
   pointer-events:none; z-index:0;
 }
-.sh-logo-wrap{
+.sh-logo-outer{
   position:relative; z-index:1;
-  width:64px; height:64px;
-  margin-bottom:11px;
-  animation:logoFloat 4.2s ease-in-out infinite;
-  filter:drop-shadow(0 12px 22px rgba(0,0,0,.18)) drop-shadow(0 0 18px rgba(0,229,160,.24));
+  width:72px; height:72px;
+  margin-bottom:12px;
+  animation:logoFloat 4s ease-in-out infinite;
 }
-.sh-logo-wrap img{width:100%;height:100%;object-fit:contain}
+/* Multi-layer glow on the logo */
+.sh-logo-outer::before{
+  content:'';
+  position:absolute; inset:-8px;
+  border-radius:26px;
+  background:conic-gradient(
+    from 0deg,
+    rgba(0,229,160,.0),
+    rgba(0,229,160,.55) 25%,
+    rgba(29,185,107,.35) 50%,
+    rgba(0,229,160,.55) 75%,
+    rgba(0,229,160,.0)
+  );
+  filter:blur(10px);
+  animation:spin 4s linear infinite;
+  opacity:.7;
+  z-index:-1;
+}
+.sh-logo-outer::after{
+  content:'';
+  position:absolute; inset:-3px;
+  border-radius:22px;
+  background:radial-gradient(circle at 50% 50%,rgba(0,229,160,.28),transparent 68%);
+  filter:blur(5px);
+  z-index:-1;
+}
+.sh-logo-img{
+  width:72px; height:72px;
+  border-radius:18px;
+  object-fit:contain;
+  position:relative; z-index:1;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.22)) drop-shadow(0 0 22px rgba(0,229,160,.30));
+}
 .sh-logo-fb{
-  width:64px; height:64px; border-radius:18px;
-  background:linear-gradient(135deg,var(--jade),var(--jd));
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 10px 28px rgba(0,229,160,.30),inset 0 1px 0 rgba(255,255,255,.26);
-  position:relative; z-index:1;
-  animation:logoFloat 4.2s ease-in-out infinite;
+  width:72px; height:72px; border-radius:18px;
+  background:linear-gradient(145deg,#00E5A0,#00B87D);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:
+    0 10px 28px rgba(0,180,120,.36),
+    0 2px 0 rgba(255,255,255,.28) inset,
+    0 0 0 3px rgba(0,229,160,.18);
 }
-.sh-logo-fb svg{width:30px;height:30px;stroke:#041520;fill:none;stroke-width:2.2}
+.sh-logo-fb svg{width:34px;height:34px;stroke:#041520;fill:none;stroke-width:2.2}
 .sh-wordmark{
   font-family:var(--f-d);
-  font-size:24px; font-weight:800;
-  letter-spacing:.07em; color:var(--sh-tx);
-  position:relative; z-index:1; line-height:1;
+  font-size:26px; font-weight:800;
+  letter-spacing:.08em; line-height:1;
+  /* Shine sweep on text */
+  background:linear-gradient(
+    100deg,
+    var(--sh-tx) 20%,
+    rgba(0,229,160,.85) 40%,
+    rgba(0,229,160,1) 50%,
+    rgba(0,229,160,.85) 60%,
+    var(--sh-tx) 80%
+  );
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:logoShine 4s ease-in-out infinite;
 }
 .sh-hq{
-  display:flex; align-items:center; gap:8px;
-  margin-top:3px; font-family:var(--f-d);
-  font-size:13px; font-weight:700;
-  letter-spacing:.14em; color:var(--jade);
-  position:relative; z-index:1;
+  display:flex; align-items:center; gap:7px;
+  margin-top:4px;
+  font-family:var(--f-d); font-size:12px; font-weight:700;
+  letter-spacing:.18em; color:var(--jade);
 }
-.sh-hq::before,.sh-hq::after{content:'';width:28px;height:1.5px;background:linear-gradient(90deg,transparent,rgba(0,229,160,.65))}
-.sh-hq::after{background:linear-gradient(90deg,rgba(0,229,160,.65),transparent)}
+.sh-hq::before,.sh-hq::after{
+  content:''; width:24px; height:1.5px; border-radius:99px;
+}
+.sh-hq::before{background:linear-gradient(90deg,transparent,rgba(0,229,160,.70))}
+.sh-hq::after{background:linear-gradient(90deg,rgba(0,229,160,.70),transparent)}
 .sh-tagline{
   font-size:12px; font-weight:500;
-  color:var(--sh-muted); text-align:center;
-  margin-top:6px; line-height:1.5;
-  position:relative; z-index:1;
+  color:var(--sh-mu); text-align:center;
+  margin-top:7px; line-height:1.5; max-width:240px;
 }
 
-/* Tab switcher */
+/* ── TABS ── */
 .sh-tabs{
   display:flex; position:relative;
-  background:rgba(100,120,140,.09);
+  background:rgba(100,120,140,.08);
   border:1px solid var(--sh-card-bd);
   border-radius:16px; padding:4px;
-  margin-bottom:18px;
+  margin-bottom:18px; flex-shrink:0;
 }
 .sh-tab-pill{
   position:absolute; top:4px; bottom:4px;
@@ -303,203 +376,217 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:
   background:linear-gradient(135deg,var(--jade),var(--jd));
   border-radius:12px;
   transition:transform .3s var(--spring);
-  box-shadow:0 3px 14px rgba(0,229,160,.30);
+  box-shadow:0 3px 14px rgba(0,229,160,.32);
   pointer-events:none;
 }
 .sh-tabs.reg .sh-tab-pill{transform:translateX(calc(100% + 4px))}
 .sh-tab-btn{
   flex:1; padding:10px 8px;
-  font-family:var(--f-u); font-size:13.5px; font-weight:700;
-  color:var(--sh-muted);
-  border-radius:11px; position:relative; z-index:1;
+  font-size:13.5px; font-weight:700;
+  color:var(--sh-mu); border-radius:11px;
+  position:relative; z-index:1;
   transition:color .22s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
 .sh-tab-btn.on{color:#041520}
-[data-theme="dark"] .sh-tab-btn.on{color:#041520}
 
-/* Social login row */
-.sh-socials{display:flex;justify-content:center;gap:12px;margin-bottom:16px}
+/* ── SOCIAL BUTTONS ── */
+.sh-socs{display:flex;justify-content:center;gap:12px;margin-bottom:16px}
 .sh-soc{
   width:50px; height:50px; border-radius:50%;
   border:1px solid var(--sh-card-bd);
   background:var(--sh-card);
   display:flex; align-items:center; justify-content:center;
-  box-shadow:0 8px 20px rgba(6,18,36,.07),inset 0 1px 0 rgba(255,255,255,.60);
+  box-shadow:0 4px 14px rgba(6,18,36,.07),inset 0 1px 0 rgba(255,255,255,.55);
   transition:transform .18s var(--spring), box-shadow .18s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
-[data-theme="dark"] .sh-soc{box-shadow:0 8px 22px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.06)}
-.sh-soc:active{transform:scale(.86);box-shadow:none}
-.sh-soc svg{width:22px;height:22px}
+[data-theme="dark"] .sh-soc{box-shadow:0 6px 18px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.06)}
+.sh-soc:active{transform:scale(.86)}
+.sh-soc svg{width:22px;height:22px;pointer-events:none}
 
-/* Divider */
+/* ── DIVIDER ── */
 .sh-div{
-  display:flex; align-items:center; gap:10px;
-  margin:0 0 16px;
+  display:flex; align-items:center; gap:10px; margin-bottom:14px;
 }
-.sh-div::before,.sh-div::after{content:'';flex:1;height:1px;background:rgba(100,120,140,.15)}
-.sh-div span{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--sh-muted)}
+.sh-div::before,.sh-div::after{content:'';flex:1;height:1px;background:rgba(100,120,140,.14)}
+.sh-div span{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--sh-mu);font-weight:500}
 
-/* Fields — iOS underline style */
-.fi-group{position:relative;margin-bottom:0}
-.fi-field{
+/* ── FORM FIELDS ── */
+.fi-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.fi-wrap{
   position:relative;
-  background:var(--sh-fi-bg);
+  background:var(--sh-fi);
   border:1.5px solid var(--sh-fi-bd);
-  border-radius:16px;
+  border-radius:15px;
   display:flex; align-items:center;
-  padding:0 14px 0 48px;
-  height:54px;
+  padding:0 14px 0 46px;
+  height:52px;
   margin-bottom:10px;
-  transition:border-color .2s, background .2s, box-shadow .2s;
+  transition:border-color .22s, background .22s, box-shadow .22s;
 }
-.fi-field:focus-within{
+.fi-wrap.err{border-color:#FF3B5C!important;background:rgba(255,59,92,.04)!important}
+.fi-wrap:focus-within{
   border-color:var(--jade);
-  background:var(--sh-fi-focus);
-  box-shadow:0 0 0 4px rgba(0,229,160,.10);
+  background:rgba(0,229,160,.05);
+  box-shadow:0 0 0 3.5px rgba(0,229,160,.12);
 }
-.fi-field.err{border-color:#FF3B5C!important;box-shadow:0 0 0 3px rgba(255,59,92,.10)!important}
 .fi-ico{
   position:absolute; left:14px; top:50%;
   transform:translateY(-50%); pointer-events:none;
 }
 .fi-ico svg{
-  width:17px;height:17px;
-  stroke:var(--sh-muted); fill:none;
-  stroke-width:1.8; stroke-linecap:round;stroke-linejoin:round;
-  transition:stroke .2s;
+  width:17px; height:17px;
+  stroke:var(--sh-mu); fill:none;
+  stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
+  transition:stroke .22s;
 }
-.fi-field:focus-within .fi-ico svg{stroke:var(--jade)}
-.fi-field input{
+.fi-wrap:focus-within .fi-ico svg{stroke:var(--jade)}
+.fi-wrap input{
   flex:1; border:none; background:none; outline:none;
   font-size:15px; font-weight:500;
   color:var(--sh-tx);
-  height:100%;
+  height:100%; width:100%;
+  /* CRITICAL for iOS */
+  -webkit-appearance:none;
+  appearance:none;
 }
-.fi-field input::placeholder{color:rgba(100,120,140,.55); font-weight:400}
-.fi-pw-toggle{
-  padding:4px 0 4px 8px;
-  display:flex; align-items:center;
-  color:var(--sh-muted);
+.fi-wrap input::placeholder{color:rgba(100,125,150,.50);font-weight:400}
+.fi-pw-eye{
+  padding:4px; display:flex; align-items:center;
+  color:var(--sh-mu); touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
-.fi-pw-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.fi-err-msg{
+.fi-pw-eye svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fi-err{
   font-size:11.5px; color:#FF3B5C; font-weight:500;
-  margin:-6px 0 10px 4px; display:none;
+  margin:-6px 0 10px 4px; display:none; line-height:1.4;
 }
-.fi-err-msg.on{display:block}
+.fi-err.on{display:block;animation:fadeUp .2s var(--eout) both}
 
-/* 2-col name row */
-.fi-row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* Extras row */
+/* Extra row (remember + forgot) */
 .fi-extras{
   display:flex; align-items:center;
   justify-content:space-between; margin-bottom:16px;
 }
-.fi-chk-wrap{display:flex;align-items:center;gap:8px}
-.fi-chk{display:none}
+.fi-chk-label{display:flex;align-items:center;gap:8px;cursor:pointer;touch-action:manipulation}
+.fi-chk-input{position:absolute;opacity:0;width:0;height:0}
 .fi-chk-box{
   width:20px; height:20px; border-radius:6px;
   border:1.5px solid var(--sh-card-bd);
-  background:var(--sh-fi-bg);
+  background:var(--sh-fi);
   display:flex; align-items:center; justify-content:center;
   flex-shrink:0; transition:all .18s;
 }
-.fi-chk:checked + .fi-chk-box{background:var(--jade);border-color:var(--jade);box-shadow:0 0 10px rgba(0,229,160,.28)}
-.fi-chk:checked + .fi-chk-box svg{opacity:1}
-.fi-chk-box svg{width:11px;height:11px;stroke:#041520;opacity:0;transition:opacity .15s;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.5}
-.fi-chk-lbl{font-size:12.5px;color:var(--sh-muted);font-weight:500}
-.fi-forgot{font-size:12.5px;color:var(--jade);font-weight:700;text-decoration:none}
+.fi-chk-input:checked ~ .fi-chk-box{
+  background:var(--jade); border-color:var(--jade);
+  box-shadow:0 0 10px rgba(0,229,160,.28);
+}
+.fi-chk-input:checked ~ .fi-chk-box svg{opacity:1}
+.fi-chk-box svg{
+  width:11px; height:11px; stroke:#041520;
+  opacity:0; transition:opacity .15s;
+  stroke-linecap:round; stroke-linejoin:round; stroke-width:2.5;
+}
+.fi-chk-text{font-size:12.5px;color:var(--sh-mu);font-weight:500}
+.fi-forgot{font-size:12.5px;color:var(--jade);font-weight:700;text-decoration:none;-webkit-tap-highlight-color:transparent}
 
-/* Submit button */
-.sh-btn{
-  width:100%; min-height:56px;
-  display:flex; align-items:center;
-  justify-content:center; gap:10px;
-  border-radius:18px; border:none;
-  background:linear-gradient(135deg,#2AEE9C 0%,#00D67A 50%,#00B865 100%);
+/* ── SUBMIT BUTTON ── */
+.sh-submit{
+  width:100%; min-height:54px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  border-radius:17px; border:none;
+  background:linear-gradient(135deg,#2CF0A0 0%,#00D47A 50%,#00B865 100%);
   color:#031912;
-  font-family:var(--f-u); font-size:15.5px; font-weight:900;
+  font-size:15.5px; font-weight:900;
   letter-spacing:.01em;
   position:relative; overflow:hidden;
   box-shadow:
-    0 6px 0 rgba(0,140,90,.60),
-    0 16px 38px rgba(0,214,122,.28),
-    inset 0 1px 0 rgba(255,255,255,.30);
+    0 5px 0 rgba(0,138,86,.58),
+    0 14px 36px rgba(0,212,122,.28),
+    inset 0 1px 0 rgba(255,255,255,.32);
   transition:transform .13s ease, box-shadow .13s ease;
   margin-bottom:14px;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
 }
-.sh-btn::before{
-  content:'';
-  position:absolute; top:-40%; bottom:-40%;
-  width:48%; left:-12%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.50),transparent);
+.sh-submit::before{
+  content:''; position:absolute;
+  top:-50%; bottom:-50%; width:50%; left:-14%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.52),transparent);
   animation:shine 2.8s ease-in-out infinite;
+  pointer-events:none;
 }
-.sh-btn:active{
+.sh-submit:active{
   transform:translateY(5px);
-  box-shadow:0 1px 0 rgba(0,140,90,.70),0 8px 20px rgba(0,214,122,.18),inset 0 1px 0 rgba(255,255,255,.30);
+  box-shadow:0 0 0 rgba(0,138,86,.58),0 6px 18px rgba(0,212,122,.18),inset 0 1px 0 rgba(255,255,255,.32);
 }
-.sh-btn:disabled{opacity:.65;cursor:not-allowed;transform:none!important}
-.sh-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.sh-spinner{width:18px;height:18px;border:2.5px solid rgba(3,25,18,.15);border-top-color:#031912;border-radius:50%;animation:spin .75s linear infinite}
+.sh-submit:disabled{opacity:.65;transform:none!important;cursor:not-allowed}
+.sh-submit svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.sh-spinner{width:18px;height:18px;border:2.5px solid rgba(3,25,18,.14);border-top-color:#031912;border-radius:50%;animation:spin .72s linear infinite;flex-shrink:0}
 
-/* Footer link */
-.sh-footer{
-  text-align:center; font-size:13px;
-  color:var(--sh-muted); font-weight:500;
-}
-.sh-footer a{color:var(--jade);font-weight:700;text-decoration:none}
-
-/* ══ SUCCESS / WELCOME BACK TOAST ══ */
+/* ── SUCCESS ── */
 .sh-success{
-  display:none;
-  flex-direction:column; align-items:center;
-  padding:24px 0 8px; text-align:center;
+  display:none; flex-direction:column;
+  align-items:center; text-align:center;
+  padding:20px 0 8px;
 }
-.sh-success.on{display:flex;animation:fadeIn .4s var(--eout) both}
-.sh-success-ico{
-  width:72px; height:72px; border-radius:50%;
-  background:var(--gdi);
-  border:2px solid var(--g);
+.sh-success.on{display:flex;animation:fadeUp .45s var(--eout) both}
+.suc-ico{
+  width:76px; height:76px; border-radius:50%;
+  background:rgba(29,185,107,.10);
+  border:2.5px solid var(--g);
   display:flex; align-items:center; justify-content:center;
   margin-bottom:16px;
-  box-shadow:0 0 0 8px var(--gdi2);
-  animation:checkPop .5s var(--spring) both;
+  box-shadow:0 0 0 8px rgba(29,185,107,.07), 0 12px 28px rgba(29,185,107,.18);
 }
-.sh-success-ico svg{width:32px;height:32px;stroke:var(--g);fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
-.sh-success-title{font-family:var(--f-d);font-size:21px;font-weight:800;letter-spacing:-.04em;color:var(--sh-tx);margin-bottom:5px}
-.sh-success-sub{font-size:13.5px;color:var(--sh-muted);line-height:1.55;max-width:270px}
-.sh-success-cta{
-  margin-top:22px; width:100%; min-height:52px;
+.suc-ico svg{width:34px;height:34px;stroke:var(--g);fill:none;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:60;animation:checkIn .6s var(--eout) .2s both}
+.suc-title{font-family:var(--f-d);font-size:21px;font-weight:800;letter-spacing:-.04em;color:var(--sh-tx);margin-bottom:5px}
+.suc-sub{font-size:13.5px;color:var(--sh-mu);line-height:1.55;max-width:260px}
+.suc-btn{
+  margin-top:20px; width:100%; min-height:52px;
   display:flex; align-items:center; justify-content:center; gap:8px;
   border-radius:16px; border:none;
-  background:linear-gradient(135deg,#2AEE9C,#00D67A);
-  color:#031912; font-size:15px; font-weight:800;
-  box-shadow:0 5px 0 rgba(0,140,90,.60),0 14px 32px rgba(0,214,122,.24);
-  transition:transform .12s;
+  background:linear-gradient(135deg,#2CF0A0,#00D47A);
+  color:#031912; font-size:15px; font-weight:900;
+  box-shadow:0 5px 0 rgba(0,138,86,.58),0 12px 28px rgba(0,212,122,.24);
+  transition:transform .13s; touch-action:manipulation;
 }
-.sh-success-cta:active{transform:translateY(3px)}
+.suc-btn:active{transform:translateY(3px)}
+.suc-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 
-/* ══ TRUST ROW ══ */
+/* ── TRUST ── */
 .sh-trust{
-  display:flex; justify-content:center; gap:6px;
-  flex-wrap:wrap; margin-bottom:14px;
+  display:flex; justify-content:center;
+  gap:6px; flex-wrap:wrap; margin-bottom:14px;
 }
 .sh-trust-item{
   display:flex; align-items:center; gap:5px;
-  padding:6px 12px; border-radius:999px;
+  padding:6px 11px; border-radius:99px;
   background:var(--sh-card); border:1px solid var(--sh-card-bd);
-  font-size:11px; font-weight:600; color:var(--sh-muted);
+  font-size:11px; font-weight:600; color:var(--sh-mu);
 }
-.sh-trust-item svg{width:13px;height:13px;stroke:var(--jade);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.sh-trust-item svg{width:12px;height:12px;stroke:var(--jade);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 
-/* ══ TOASTS ══ */
+/* ── FOOTER ── */
+.sh-footer{
+  text-align:center; font-size:13px;
+  color:var(--sh-mu); font-weight:500;
+  padding-bottom:2px;
+}
+.sh-footer a{color:var(--jade);font-weight:700;text-decoration:none;-webkit-tap-highlight-color:transparent}
+
+/* ── HIDDEN EXTRAS ── */
+.reg-only{display:none}
+
+/* ── TOASTS ── */
 #toasts{
   position:fixed; top:max(env(safe-area-inset-top),14px);
-  left:14px; right:14px; z-index:9999;
-  display:flex; flex-direction:column; gap:8px;
-  align-items:center; pointer-events:none;
+  left:14px; right:14px; z-index:999;
+  display:flex; flex-direction:column;
+  gap:8px; align-items:center; pointer-events:none;
 }
 .t-item{
   display:flex; align-items:center; gap:10px;
@@ -507,210 +594,174 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:
   background:rgba(255,255,255,.96);
   border:1px solid rgba(10,20,40,.10);
   border-radius:15px;
-  box-shadow:0 8px 32px rgba(10,20,40,.16);
+  box-shadow:0 8px 28px rgba(10,20,40,.16);
   max-width:340px; width:100%;
   pointer-events:all;
-  transform:translateY(-64px); opacity:0;
+  transform:translateY(-60px); opacity:0;
   transition:transform .38s var(--spring),opacity .28s var(--ease);
   backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
 }
-[data-theme="dark"] .t-item{background:rgba(10,20,34,.92);border-color:rgba(255,255,255,.10);color:#fff}
+[data-theme="dark"] .t-item{background:rgba(8,16,30,.94);border-color:rgba(255,255,255,.09);color:#fff}
 .t-item.show{transform:translateY(0);opacity:1}
-.t-item.hide{transform:translateY(-64px);opacity:0}
-.t-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.t-dot.s{background:#1DB96B;box-shadow:0 0 8px rgba(29,185,107,.40)}
-.t-dot.e{background:#FF3B5C}
+.t-item.hide{transform:translateY(-60px);opacity:0}
+.t-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.t-dot.s{background:var(--g);box-shadow:0 0 8px var(--gg)}
+.t-dot.e{background:#FF3B5C;box-shadow:0 0 8px rgba(255,59,92,.40)}
 .t-dot.i{background:#2D7EFF}
-.t-txt{font-size:13px;font-weight:600;color:inherit}
+.t-txt{font-size:13px;font-weight:600;flex:1}
 
-/* ══ RESPONSIVE / SMALL HEIGHT ══ */
-@media(max-height:700px){
+/* Small height fix */
+@media(max-height:720px){
   #sheet{max-height:56svh}
-  .sh-brand{margin-bottom:16px}
-  .sh-logo-wrap{width:52px;height:52px}
-  .sh-wordmark{font-size:20px}
   .sh-tagline{display:none}
   .sh-trust{display:none}
-  .sh-div{margin-bottom:12px}
+  .sh-logo-outer{width:60px;height:60px;margin-bottom:8px}
+  .sh-logo-img{width:60px;height:60px}
+  .sh-logo-fb{width:60px;height:60px}
+  .sh-brand{margin-bottom:16px}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
 <div id="toasts"></div>
 
-<!-- GALLERY -->
-<div id="gallery">
+<!-- ═══ GALLERY ═══ -->
+<div id="gal">
   <div class="g-bars" id="g-bars">
-    <div class="g-bar on"><div class="g-bf"></div></div>
-    <div class="g-bar"><div class="g-bf"></div></div>
-    <div class="g-bar"><div class="g-bf"></div></div>
-    <div class="g-bar"><div class="g-bf"></div></div>
+    <div class="g-bar on"><div class="g-bar-fill"></div></div>
+    <div class="g-bar"><div class="g-bar-fill"></div></div>
+    <div class="g-bar"><div class="g-bar-fill"></div></div>
+    <div class="g-bar"><div class="g-bar-fill"></div></div>
   </div>
   <div class="g-toprow">
     <button class="top-btn" onclick="galNext()">
       <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
     </button>
     <button class="top-btn" onclick="toggleTheme()">
-      <svg class="sun-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      <svg class="moon-i" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="sun-ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="moon-ico" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
   </div>
   <div class="g-track" id="g-track">
-    <!-- Slide 1 -->
     <div class="g-slide on">
-      <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=85&fit=crop" loading="eager" draggable="false" alt="">
-      <div class="g-info">
-        <div class="g-loc"><div class="g-loc-dot"></div>Costa del Este, Panamá</div>
-        <div class="g-pname">Penthouse Vista al Mar</div>
-        <div class="g-pprice">$1,250,000</div>
-      </div>
+      <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=85&fit=crop&crop=top" loading="eager" draggable="false" alt="">
+      <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Costa del Este, Panamá</div><div class="g-pname">Penthouse Vista al Mar</div><div class="g-pprice">$1,250,000</div></div>
     </div>
-    <!-- Slide 2 -->
     <div class="g-slide">
       <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
-      <div class="g-info">
-        <div class="g-loc"><div class="g-loc-dot"></div>Punta Pacífica, Panamá</div>
-        <div class="g-pname">Residencia de Lujo 38A</div>
-        <div class="g-pprice">$2,450,000</div>
-      </div>
+      <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Punta Pacífica, Panamá</div><div class="g-pname">Residencia de Lujo 38A</div><div class="g-pprice">$2,450,000</div></div>
     </div>
-    <!-- Slide 3 -->
     <div class="g-slide">
       <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
-      <div class="g-info">
-        <div class="g-loc"><div class="g-loc-dot"></div>Albrook, Panamá</div>
-        <div class="g-pname">Villa Privada con Piscina</div>
-        <div class="g-pprice">$850,000</div>
-      </div>
+      <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Albrook, Panamá</div><div class="g-pname">Villa Privada con Piscina</div><div class="g-pprice">$850,000</div></div>
     </div>
-    <!-- Slide 4 -->
     <div class="g-slide">
-      <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
-      <div class="g-info">
-        <div class="g-loc"><div class="g-loc-dot"></div>Marbella, Panamá</div>
-        <div class="g-pname">Apartamento Amueblado</div>
-        <div class="g-pprice">$1,800/mes</div>
-      </div>
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
+      <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Marbella, Panamá</div><div class="g-pname">Apartamento Amueblado</div><div class="g-pprice">$1,800/mes</div></div>
     </div>
   </div>
 </div>
 
-<!-- FLOATING GLASS SHEET -->
+<!-- ═══ FLOATING GLASS SHEET ═══ -->
 <div id="sheet">
   <div class="sh-inner">
-    <div class="sh-handle" id="sh-handle"></div>
+    <div class="sh-handle"></div>
 
-    <!-- BRAND BLOCK -->
+    <!-- BRAND -->
     <div class="sh-brand">
-      <div class="sh-logo-wrap" id="sh-logo">
-        <img src="img/logo.png" alt="Propix HQ"
-          onerror="
-            const fb=document.createElement('div');
-            fb.className='sh-logo-fb';
-            fb.innerHTML='<svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#041520\' stroke-width=\'2.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M3 9L12 3L21 9V20a1 1 0 0 1-1 1H15V15H9V21H4a1 1 0 0 1-1-1V9Z\'/></svg>';
-            this.parentElement.replaceWith(fb);
-          ">
+      <div class="sh-halo"></div>
+      <div class="sh-logo-outer" id="logo-outer">
+        <img class="sh-logo-img" id="sh-logo" src="img/logo.png" alt="Propix"
+          onerror="document.getElementById('logo-outer').innerHTML='<div class=sh-logo-fb><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#041520\' stroke-width=\'2.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'><path d=\'M3 9L12 3L21 9V20a1 1 0 0 1-1 1H15V15H9V21H4a1 1 0 0 1-1-1V9Z\'/></svg></div>'">
       </div>
       <div class="sh-wordmark">PROPIX</div>
       <div class="sh-hq">HQ</div>
       <div class="sh-tagline">Tu próximo hogar, a un swipe de distancia.</div>
     </div>
 
-    <!-- TAB SWITCHER -->
+    <!-- TABS -->
     <div class="sh-tabs" id="sh-tabs">
-      <div class="sh-tab-pill"></div>
+      <div class="sh-tab-pill" id="tab-pill"></div>
       <button class="sh-tab-btn on" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
       <button class="sh-tab-btn" id="tab-reg" onclick="switchTab('reg')">Crear cuenta</button>
     </div>
 
-    <!-- SOCIAL LOGIN -->
-    <div class="sh-socials">
-      <button class="sh-soc" onclick="socialLogin('google')" aria-label="Google">
+    <!-- SOCIALS -->
+    <div class="sh-socs">
+      <button class="sh-soc" onclick="socialLogin('Google')">
         <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       </button>
-      <button class="sh-soc" onclick="socialLogin('apple')" aria-label="Apple">
+      <button class="sh-soc" onclick="socialLogin('Apple')">
         <svg viewBox="0 0 24 24" fill="currentColor" style="color:var(--sh-tx)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
       </button>
-      <button class="sh-soc" onclick="socialLogin('facebook')" aria-label="Facebook">
+      <button class="sh-soc" onclick="socialLogin('Facebook')">
         <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
       </button>
     </div>
 
-    <!-- DIVIDER -->
     <div class="sh-div"><span>o con email</span></div>
 
-    <!-- FORM — REGISTER ONLY: name row -->
-    <div id="name-row" style="display:none">
-      <div class="fi-row2" style="margin-bottom:10px">
-        <div class="fi-field" id="ff-nombre">
-          <div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <input type="text" id="fi-nombre" placeholder="Nombre" autocomplete="given-name">
-        </div>
-        <div class="fi-field" id="ff-apellido">
-          <div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-          <input type="text" id="fi-apellido" placeholder="Apellido" autocomplete="family-name">
-        </div>
-      </div>
+    <!-- NAME ROW (register only) -->
+    <div class="fi-row2 reg-only" id="name-row">
+      <div class="fi-wrap"><div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><input type="text" id="fi-nombre" placeholder="Nombre" autocomplete="given-name" autocorrect="off"></div>
+      <div class="fi-wrap"><div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><input type="text" id="fi-apellido" placeholder="Apellido" autocomplete="family-name" autocorrect="off"></div>
     </div>
 
     <!-- EMAIL -->
-    <div class="fi-field" id="ff-email">
+    <div class="fi-wrap" id="fw-email">
       <div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-      <input type="email" id="fi-email" placeholder="tu@email.com" autocomplete="email" inputmode="email">
+      <input type="email" id="fi-email" placeholder="tu@email.com" autocomplete="email" inputmode="email" autocapitalize="none">
     </div>
-    <div class="fi-err-msg" id="err-email">Ingresa un correo válido</div>
+    <div class="fi-err" id="err-email">Ingresa un correo válido</div>
 
     <!-- PASSWORD -->
-    <div class="fi-field" id="ff-pw">
+    <div class="fi-wrap" id="fw-pw">
       <div class="fi-ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
       <input type="password" id="fi-pw" placeholder="Contraseña" autocomplete="current-password">
-      <button class="fi-pw-toggle" onclick="togglePw('fi-pw','eye-pw')" tabindex="-1">
+      <button class="fi-pw-eye" onclick="togglePw('fi-pw','eye-pw')" type="button">
         <svg id="eye-pw" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
     </div>
-    <div class="fi-err-msg" id="err-pw">Mínimo 6 caracteres</div>
+    <div class="fi-err" id="err-pw">Mínimo 6 caracteres</div>
 
-    <!-- CONFIRM PASSWORD (register only) -->
-    <div id="conf-wrap" style="display:none">
-      <div class="fi-field" id="ff-conf">
-        <div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-        <input type="password" id="fi-conf" placeholder="Confirmar contraseña" autocomplete="new-password">
-        <button class="fi-pw-toggle" onclick="togglePw('fi-conf','eye-conf')" tabindex="-1">
-          <svg id="eye-conf" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </button>
-      </div>
-      <div class="fi-err-msg" id="err-conf">Las contraseñas no coinciden</div>
+    <!-- CONFIRM (register only) -->
+    <div class="fi-wrap reg-only" id="fw-conf">
+      <div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <input type="password" id="fi-conf" placeholder="Confirmar contraseña" autocomplete="new-password">
+      <button class="fi-pw-eye" onclick="togglePw('fi-conf','eye-conf')" type="button">
+        <svg id="eye-conf" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </button>
     </div>
+    <div class="fi-err reg-only" id="err-conf">Las contraseñas no coinciden</div>
 
-    <!-- EXTRAS ROW -->
-    <div class="fi-extras" id="fi-extras">
-      <label class="fi-chk-wrap">
-        <input type="checkbox" class="fi-chk" id="fi-remember" checked>
+    <!-- EXTRAS -->
+    <div class="fi-extras">
+      <label class="fi-chk-label">
+        <input class="fi-chk-input" type="checkbox" id="fi-remember" checked>
         <div class="fi-chk-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 5,9.5 10.5,2.5"/></svg></div>
-        <span class="fi-chk-lbl" id="extras-lbl">Recordarme</span>
+        <span class="fi-chk-text" id="chk-text">Recordarme</span>
       </label>
       <a href="#" class="fi-forgot" id="fi-forgot" onclick="forgotPw(event)">¿Olvidaste tu clave?</a>
     </div>
 
     <!-- SUBMIT -->
-    <button class="sh-btn" id="sh-btn" onclick="handleAuth(event)">
+    <button class="sh-submit" id="sh-submit" onclick="handleAuth(event)">
       <svg id="btn-ico" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
       <span id="btn-txt">Ingresar</span>
     </button>
 
-    <!-- SUCCESS STATE -->
+    <!-- SUCCESS -->
     <div class="sh-success" id="sh-success">
-      <div class="sh-success-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <div class="sh-success-title" id="success-title">¡Bienvenido!</div>
-      <div class="sh-success-sub" id="success-sub">Entrando a Propix HQ...</div>
-      <button class="sh-success-cta" onclick="enterApp()">
+      <div class="suc-ico"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="suc-title" id="suc-title">¡Bienvenido!</div>
+      <div class="suc-sub" id="suc-sub">Entrando a Propix HQ...</div>
+      <button class="suc-btn" onclick="enterApp()">
         Explorar propiedades
-        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
       </button>
     </div>
 
-    <!-- TRUST ITEMS -->
+    <!-- TRUST -->
     <div class="sh-trust" id="sh-trust">
       <div class="sh-trust-item"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-5"/></svg>+250 propiedades</div>
       <div class="sh-trust-item"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Agentes verificados</div>
@@ -718,359 +769,342 @@ button{-webkit-tap-highlight-color:transparent;touch-action:manipulation;cursor:
     </div>
 
     <!-- FOOTER -->
-    <div class="sh-footer" id="sh-footer">
+    <div class="sh-footer">
       <span id="footer-txt">¿Primera vez? </span>
-      <a href="#" id="footer-lnk" onclick="switchTab(currentTab==='login'?'reg':'login');return false;">Crear cuenta gratis</a>
+      <a href="#" id="footer-lnk" onclick="switchTab(TAB==='login'?'reg':'login');return false;">Crear cuenta gratis</a>
     </div>
 
-  </div><!-- /sh-inner -->
-</div><!-- /sheet -->
+  </div>
+</div>
 
 <script>
-/* ════════════════════════════════════
-   PROPIX HQ — LOGIN v2 · Floating Glass
-════════════════════════════════════ */
+/* ══════════════════════════
+   PROPIX HQ — LOGIN v3
+══════════════════════════ */
 
-// ── VIEWPORT
-(()=>{
+// ── VIEWPORT HEIGHT (fix iOS keyboard)
+(function(){
   const root = document.documentElement;
-  let lastH = window.innerHeight;
-  function setH(force){
-    const nh = window.innerHeight;
-    const focused = ['INPUT','TEXTAREA'].includes(document.activeElement?.tagName);
-    if(force || !focused) lastH = nh;
-    root.style.setProperty('--app-h', lastH+'px');
+  function set(){
+    // use visualViewport if available (handles keyboard)
+    const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    root.style.setProperty('--app-h', h+'px');
   }
-  setH(true);
-  window.addEventListener('resize',()=>setH(false),{passive:true});
-  window.addEventListener('orientationchange',()=>setTimeout(()=>setH(true),280),{passive:true});
-  // Detect keyboard open/close
-  window.visualViewport?.addEventListener('resize',()=>{
-    const ratio = window.visualViewport.height / lastH;
-    const sheet = document.getElementById('sheet');
-    if(ratio < 0.75){sheet.classList.add('keyboard')}
-    else{sheet.classList.remove('keyboard')}
-  },{passive:true});
+  set();
+  if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', set, {passive:true});
+    window.visualViewport.addEventListener('scroll', set, {passive:true});
+  }
+  window.addEventListener('resize', set, {passive:true});
+  window.addEventListener('orientationchange', ()=>setTimeout(set,300), {passive:true});
 })();
 
 // ── THEME
-let currentTheme = localStorage.getItem('px-theme') || 'light';
+let THEME = localStorage.getItem('px-theme') || 'light';
 function applyTheme(t){
-  document.documentElement.setAttribute('data-theme',t);
-  document.querySelector('meta[name=theme-color]')?.setAttribute('content', t==='dark'?'#030B16':'#ffffff');
+  document.documentElement.setAttribute('data-theme', t);
+  document.querySelector('meta[name=theme-color]')
+    ?.setAttribute('content', t==='dark'?'#030B16':'#f0f3f8');
 }
 function toggleTheme(){
-  currentTheme = currentTheme==='dark'?'light':'dark';
-  localStorage.setItem('px-theme', currentTheme);
-  applyTheme(currentTheme);
+  THEME = THEME==='dark' ? 'light' : 'dark';
+  localStorage.setItem('px-theme', THEME);
+  applyTheme(THEME);
   try{navigator.vibrate?.(6)}catch(_){}
 }
-applyTheme(currentTheme);
+applyTheme(THEME);
 
 // ── TOAST
-function toast(type,msg,dur=3600){
+function toast(type, msg, dur=3800){
   const c = document.getElementById('toasts');
   const el = document.createElement('div');
   el.className = 't-item';
   el.innerHTML = `<div class="t-dot ${type}"></div><div class="t-txt">${msg}</div>`;
   c.appendChild(el);
   requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
-  const timer = setTimeout(()=>{el.classList.add('hide');setTimeout(()=>el.remove(),400)},dur);
-  el.onclick=()=>{clearTimeout(timer);el.classList.add('hide');setTimeout(()=>el.remove(),400)};
+  const t = setTimeout(()=>{el.classList.add('hide');setTimeout(()=>el.remove(),400)}, dur);
+  el.onclick = ()=>{clearTimeout(t);el.classList.add('hide');setTimeout(()=>el.remove(),400)};
 }
 
-// ── GALLERY
-(()=>{
-  const gal = document.getElementById('gallery');
+// ── GALLERY ENGINE
+(function(){
+  const gal   = document.getElementById('gal');
   const track = document.getElementById('g-track');
-  const bars = [...document.querySelectorAll('.g-bar')];
+  const bars  = [...document.querySelectorAll('.g-bar')];
   const slides = [...track.querySelectorAll('.g-slide')];
-  const total = slides.length;
-  let cur=0, startX=0, deltaX=0, dragging=false, auto;
+  const N = slides.length;
+  let cur=0, sx=0, dx=0, drag=false, tid;
 
-  function w(){ return gal.clientWidth || window.innerWidth || 390 }
+  function W(){ return window.innerWidth||390 }
+
   function paint(){
     slides.forEach((s,i)=>s.classList.toggle('on',i===cur));
     bars.forEach((b,i)=>{
-      b.classList.toggle('on',i===cur);
-      b.classList.toggle('done',i<cur);
+      b.classList.toggle('on', i===cur);
+      b.classList.toggle('done', i<cur);
       if(i>cur) b.classList.remove('done');
     });
   }
-  function render(anim){
-    track.classList.toggle('dragging',!anim||dragging);
-    if(anim&&!dragging) track.style.transition='transform .48s cubic-bezier(.22,.60,.36,1)';
-    else track.style.transition='none';
-    track.style.transform=`translate3d(${(-cur*w())+(dragging?deltaX:0)}px,0,0)`;
+
+  function move(anim){
+    track.style.transition = (anim&&!drag)
+      ? 'transform .46s cubic-bezier(.22,.60,.36,1)' : 'none';
+    track.style.transform =
+      `translate3d(${-cur*W()+(drag?dx:0)}px,0,0)`;
   }
-  function goTo(next,anim=true){
-    cur=((next%total)+total)%total;
-    dragging=false; deltaX=0;
-    paint(); render(anim);
-    clearInterval(auto);
-    auto=setInterval(()=>goTo(cur+1),5200);
+
+  function goTo(n, anim=true){
+    cur = ((n%N)+N)%N;
+    drag=false; dx=0;
+    paint(); move(anim);
+    clearInterval(tid);
+    tid = setInterval(()=>goTo(cur+1), 5400);
   }
-  function pt(e){return e.touches?.[0]||e.changedTouches?.[0]||e}
-  function onStart(e){
-    if(e.target?.closest?.('#sheet')) return;
-    dragging=true; startX=pt(e).clientX; deltaX=0;
-    clearInterval(auto); render(false);
-  }
-  function onMove(e){if(!dragging)return; deltaX=pt(e).clientX-startX; render(false)}
-  function onEnd(e){
-    if(!dragging)return;
-    const moved=pt(e).clientX-startX; dragging=false;
-    const th=Math.max(40,w()*.11);
-    if(Math.abs(moved)>th) cur=moved<0?cur+1:cur-1;
-    cur=((cur%total)+total)%total;
-    deltaX=0; paint(); render(true);
-    clearInterval(auto); auto=setInterval(()=>goTo(cur+1),5200);
-  }
-  gal.addEventListener('touchstart',onStart,{passive:true});
-  gal.addEventListener('touchmove',onMove,{passive:true});
-  gal.addEventListener('touchend',onEnd,{passive:true});
-  window.addEventListener('resize',()=>render(false),{passive:true});
-  paint(); render(false);
-  auto=setInterval(()=>goTo(cur+1),5200);
-  window.galNext=()=>goTo(cur+1);
+
+  function pt(e){ return e.touches?.[0]||e.changedTouches?.[0]||e }
+
+  // Only start drag if NOT touching the sheet
+  gal.addEventListener('touchstart', e=>{
+    if(e.target.closest('#sheet')) return;
+    drag=true; sx=pt(e).clientX; dx=0;
+    clearInterval(tid); move(false);
+  },{passive:true});
+
+  gal.addEventListener('touchmove', e=>{
+    if(!drag) return;
+    dx = pt(e).clientX - sx;
+    move(false);
+  },{passive:true});
+
+  gal.addEventListener('touchend', e=>{
+    if(!drag) return;
+    const d = pt(e).clientX - sx;
+    drag = false;
+    if(Math.abs(d) > Math.max(42, W()*.11))
+      cur = d<0 ? cur+1 : cur-1;
+    cur = ((cur%N)+N)%N;
+    dx=0; paint(); move(true);
+    clearInterval(tid);
+    tid = setInterval(()=>goTo(cur+1), 5400);
+  },{passive:true});
+
+  window.addEventListener('resize', ()=>move(false), {passive:true});
+  paint(); move(false);
+  tid = setInterval(()=>goTo(cur+1), 5400);
+  window.galNext = ()=>goTo(cur+1);
 })();
 
-// ── SHEET DRAG (pull up / down)
-(()=>{
+// ── SHEET: expand when form focused
+(function(){
   const sheet = document.getElementById('sheet');
-  const handle = document.getElementById('sh-handle');
-  let startY=0, startH=0, dragging=false;
-
-  function sheetH(){ return sheet.clientHeight }
-
-  handle.addEventListener('touchstart',e=>{
-    dragging=true; startY=e.touches[0].clientY; startH=sheetH();
-  },{passive:true});
-  window.addEventListener('touchmove',e=>{
-    if(!dragging) return;
-    const dy = startY - e.touches[0].clientY;
-    if(dy > 40) sheet.classList.add('expanded');
-    if(dy < -40) sheet.classList.remove('expanded');
-  },{passive:true});
-  window.addEventListener('touchend',()=>{ dragging=false },{passive:true});
+  // Expand on input focus
+  sheet.addEventListener('focusin', e=>{
+    if(['INPUT','TEXTAREA'].includes(e.target.tagName)){
+      sheet.classList.add('tall');
+    }
+  });
+  // Collapse on blur only if no other input focused
+  sheet.addEventListener('focusout', ()=>{
+    setTimeout(()=>{
+      if(!sheet.querySelector('input:focus,textarea:focus')){
+        if(TAB==='login') sheet.classList.remove('tall');
+      }
+    }, 100);
+  });
+  // Register tab always tall
+  window._sheetReg = ()=>sheet.classList.add('tall');
+  window._sheetLogin = ()=>sheet.classList.remove('tall');
 })();
 
 // ── TAB SYSTEM
-let currentTab = 'login';
+let TAB = 'login';
 function switchTab(t){
-  currentTab = t;
-  const tabs = document.getElementById('sh-tabs');
-  const tabL = document.getElementById('tab-login');
-  const tabR = document.getElementById('tab-reg');
-  const nameRow = document.getElementById('name-row');
-  const confWrap = document.getElementById('conf-wrap');
+  TAB = t;
+  const tabs   = document.getElementById('sh-tabs');
+  const tl     = document.getElementById('tab-login');
+  const tr     = document.getElementById('tab-reg');
   const forgot = document.getElementById('fi-forgot');
-  const extrasLbl = document.getElementById('extras-lbl');
-  const footerTxt = document.getElementById('footer-txt');
-  const footerLnk = document.getElementById('footer-lnk');
+  const chkTxt = document.getElementById('chk-text');
+  const ftTxt  = document.getElementById('footer-txt');
+  const ftLnk  = document.getElementById('footer-lnk');
   const btnTxt = document.getElementById('btn-txt');
-  const sheet = document.getElementById('sheet');
-  const pw = document.getElementById('fi-pw');
+  const ico    = document.getElementById('btn-ico');
+  const pw     = document.getElementById('fi-pw');
   clearErrors();
+
+  document.querySelectorAll('.reg-only').forEach(el=>{
+    el.style.display = t==='reg' ? (el.classList.contains('fi-row2')?'grid':'block') : 'none';
+  });
+
   if(t==='login'){
     tabs.classList.remove('reg');
-    tabL.classList.add('on'); tabR.classList.remove('on');
-    nameRow.style.display='none'; confWrap.style.display='none';
-    forgot.style.display='block'; extrasLbl.textContent='Recordarme';
-    footerTxt.textContent='¿Primera vez? '; footerLnk.textContent='Crear cuenta gratis';
-    btnTxt.textContent='Ingresar'; pw.autocomplete='current-password';
-    sheet.classList.remove('expanded');
+    tl.classList.add('on'); tr.classList.remove('on');
+    forgot.style.display='block'; chkTxt.textContent='Recordarme';
+    ftTxt.textContent='¿Primera vez? '; ftLnk.textContent='Crear cuenta gratis';
+    btnTxt.textContent='Ingresar';
+    ico.innerHTML='<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>';
+    pw.autocomplete='current-password';
+    window._sheetLogin();
   } else {
     tabs.classList.add('reg');
-    tabR.classList.add('on'); tabL.classList.remove('on');
-    nameRow.style.display='block'; confWrap.style.display='block';
-    forgot.style.display='none'; extrasLbl.textContent='Acepto los términos';
-    footerTxt.textContent='¿Ya tienes cuenta? '; footerLnk.textContent='Iniciar sesión';
-    btnTxt.textContent='Crear cuenta'; pw.autocomplete='new-password';
-    sheet.classList.add('expanded');
+    tr.classList.add('on'); tl.classList.remove('on');
+    forgot.style.display='none'; chkTxt.textContent='Acepto los términos';
+    ftTxt.textContent='¿Ya tienes cuenta? '; ftLnk.textContent='Iniciar sesión';
+    btnTxt.textContent='Crear cuenta';
+    ico.innerHTML='<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>';
+    pw.autocomplete='new-password';
+    window._sheetReg();
   }
-  try{navigator.vibrate?.(4)}catch(_){}
+  try{navigator.vibrate?.(5)}catch(_){}
 }
 
 // ── PASSWORD TOGGLE
-function togglePw(inputId, iconId){
-  const inp = document.getElementById(inputId);
-  const ico = document.getElementById(iconId);
-  if(!inp||!ico) return;
-  const shown = inp.type==='text';
-  inp.type = shown?'password':'text';
-  ico.innerHTML = shown
+function togglePw(id, ico){
+  const inp = document.getElementById(id);
+  const svg = document.getElementById(ico);
+  if(!inp||!svg) return;
+  const show = inp.type==='text';
+  inp.type = show?'password':'text';
+  svg.innerHTML = show
     ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
     : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
 }
 
-// ── VALIDATION HELPERS
+// ── VALIDATION
 function clearErrors(){
-  ['ff-email','ff-pw','ff-conf','ff-nombre','ff-apellido'].forEach(id=>{
-    document.getElementById(id)?.classList.remove('err');
-  });
+  ['fw-email','fw-pw','fw-conf'].forEach(id=>document.getElementById(id)?.classList.remove('err'));
   ['err-email','err-pw','err-conf'].forEach(id=>{
-    document.getElementById(id)?.classList.remove('on');
+    const el=document.getElementById(id); if(el){ el.classList.remove('on'); }
   });
 }
-function markErr(fieldId, msgId){
-  document.getElementById(fieldId)?.classList.add('err');
-  document.getElementById(msgId)?.classList.add('on');
-}
-function setLoading(on){
-  const btn = document.getElementById('sh-btn');
-  const ico = document.getElementById('btn-ico');
-  const txt = document.getElementById('btn-txt');
-  btn.disabled = on;
-  if(on){
-    ico.outerHTML = '<div class="sh-spinner" id="btn-ico"></div>';
-    txt.textContent = 'Un momento...';
-  } else {
-    document.getElementById('btn-ico')?.remove();
-    const newIco = document.createElement('svg');
-    newIco.id='btn-ico'; newIco.setAttribute('viewBox','0 0 24 24');
-    newIco.innerHTML = currentTab==='login'
-      ? '<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>'
-      : '<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>';
-    newIco.style.cssText='width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round';
-    btn.insertBefore(newIco, btn.firstChild);
-    txt.textContent = currentTab==='login'?'Ingresar':'Crear cuenta';
-    btn.disabled = false;
-  }
+function markErr(fw, er, msg){
+  document.getElementById(fw)?.classList.add('err');
+  const el=document.getElementById(er);
+  if(el){ if(msg) el.textContent=msg; el.classList.add('on'); }
 }
 
-// ── AUTH HANDLER (localStorage)
+// Auto-clear on input
+['fi-email','fi-pw','fi-conf'].forEach(id=>{
+  document.getElementById(id)?.addEventListener('input', ()=>{
+    const map={'fi-email':['fw-email','err-email'],'fi-pw':['fw-pw','err-pw'],'fi-conf':['fw-conf','err-conf']};
+    const [fw,er]=map[id]||[];
+    if(fw) document.getElementById(fw)?.classList.remove('err');
+    if(er) document.getElementById(er)?.classList.remove('on');
+  });
+});
+
+// ── AUTH HANDLER
 function handleAuth(e){
   e.preventDefault();
   clearErrors();
   const email = document.getElementById('fi-email').value.trim().toLowerCase();
   const pw    = document.getElementById('fi-pw').value;
-  let ok = true;
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ markErr('ff-email','err-email'); ok=false; }
-  if(pw.length < 6){ markErr('ff-pw','err-pw'); ok=false; }
-  if(currentTab==='reg'){
-    const conf = document.getElementById('fi-conf').value;
-    if(conf !== pw){ markErr('ff-conf','err-conf'); ok=false; }
+  let ok=true;
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ markErr('fw-email','err-email'); ok=false; }
+  if(pw.length<6){ markErr('fw-pw','err-pw','Mínimo 6 caracteres'); ok=false; }
+  if(TAB==='reg'){
+    const conf=document.getElementById('fi-conf').value;
+    if(conf!==pw){ markErr('fw-conf','err-conf','Las contraseñas no coinciden'); ok=false; }
   }
   if(!ok) return;
-
   setLoading(true);
 
-  // Simulate async (replace with Supabase call here)
+  // Simulate async — replace with Supabase here
   setTimeout(()=>{
-    if(currentTab==='login'){
-      // Check if user exists in localStorage
-      const users = JSON.parse(localStorage.getItem('px-users') || '[]');
-      const user = users.find(u=>u.email===email);
-      if(!user){
-        setLoading(false);
-        markErr('ff-email','err-email');
-        document.getElementById('err-email').textContent='No encontramos esta cuenta';
-        document.getElementById('err-email').classList.add('on');
-        toast('e','Cuenta no encontrada — ¿quieres registrarte?');
-        return;
-      }
-      if(user.pw !== btoa(pw)){
-        setLoading(false);
-        markErr('ff-pw','err-pw');
-        document.getElementById('err-pw').textContent='Contraseña incorrecta';
-        document.getElementById('err-pw').classList.add('on');
-        toast('e','Contraseña incorrecta');
-        return;
-      }
-      // Login success
-      const remember = document.getElementById('fi-remember').checked;
-      if(remember) localStorage.setItem('px-session', JSON.stringify({email, name:user.name, initials:user.initials, role:user.role}));
-      localStorage.setItem('px-user', JSON.stringify({email, name:user.name, initials:user.initials}));
+    const users = JSON.parse(localStorage.getItem('px-users')||'[]');
+    if(TAB==='login'){
+      const u = users.find(u=>u.email===email);
+      if(!u){ setLoading(false); markErr('fw-email','err-email','No encontramos esta cuenta'); toast('e','¿Aún no tienes cuenta? Crea una →'); return; }
+      if(u.pw!==btoa(pw)){ setLoading(false); markErr('fw-pw','err-pw','Contraseña incorrecta'); toast('e','Contraseña incorrecta'); return; }
+      localStorage.setItem('px-user', JSON.stringify({email,name:u.name,initials:u.initials,role:u.role}));
+      if(document.getElementById('fi-remember').checked)
+        localStorage.setItem('px-session', JSON.stringify({email,name:u.name,initials:u.initials}));
       setLoading(false);
-      showSuccess(`¡Hola de nuevo, ${user.name.split(' ')[0]}!`, 'Bienvenido a Propix HQ', user);
+      showSuccess(`¡Hola, ${u.name.split(' ')[0]}!`, 'Bienvenido de vuelta a Propix HQ');
     } else {
-      // Register
-      const nombre   = document.getElementById('fi-nombre').value.trim();
-      const apellido = document.getElementById('fi-apellido').value.trim();
-      const fullName = [nombre, apellido].filter(Boolean).join(' ') || email.split('@')[0];
-      const initials = (nombre[0]||'U').toUpperCase();
-      const users = JSON.parse(localStorage.getItem('px-users') || '[]');
-      if(users.find(u=>u.email===email)){
-        setLoading(false);
-        markErr('ff-email','err-email');
-        document.getElementById('err-email').textContent='Este correo ya está registrado';
-        document.getElementById('err-email').classList.add('on');
-        toast('e','Este correo ya tiene cuenta — inicia sesión');
-        return;
-      }
-      const newUser = { email, name:fullName, initials, pw:btoa(pw), role:null, createdAt:Date.now() };
-      users.push(newUser);
+      if(users.find(u=>u.email===email)){ setLoading(false); markErr('fw-email','err-email','Este correo ya tiene cuenta'); toast('e','Ya tienes cuenta — inicia sesión'); return; }
+      const nombre   = document.getElementById('fi-nombre')?.value.trim()||'';
+      const apellido = document.getElementById('fi-apellido')?.value.trim()||'';
+      const name = [nombre,apellido].filter(Boolean).join(' ')||email.split('@')[0];
+      const u = {email, name, initials:(nombre[0]||'U').toUpperCase(), pw:btoa(pw), role:null, createdAt:Date.now()};
+      users.push(u);
       localStorage.setItem('px-users', JSON.stringify(users));
-      localStorage.setItem('px-user', JSON.stringify({email, name:fullName, initials}));
+      localStorage.setItem('px-user', JSON.stringify({email,name,initials:u.initials}));
+      localStorage.setItem('px-role-pending','true');
       setLoading(false);
-      showSuccess(`¡Cuenta creada, ${fullName.split(' ')[0]}!`, 'Tu cuenta Propix HQ está lista.', newUser);
+      showSuccess(`¡Bienvenido, ${name.split(' ')[0]}!`, 'Tu cuenta Propix HQ fue creada exitosamente.');
     }
-  }, 900);
+  }, 800);
 }
 
-// ── SHOW SUCCESS
-function showSuccess(title, sub, user){
-  // Hide form, show success
-  document.getElementById('sh-tabs').style.opacity='0';
-  document.getElementById('sh-tabs').style.pointerEvents='none';
-  document.getElementById('sh-socials')||'';
-  document.querySelectorAll('.sh-socials,.sh-div,#name-row,.fi-field,#conf-wrap,.fi-err-msg,#fi-extras,.sh-btn,#sh-trust,.sh-footer').forEach(el=>{ if(el) el.style.display='none'; });
-  document.getElementById('err-email').style.display='none';
-  document.getElementById('err-pw').style.display='none';
+// ── LOADING STATE
+function setLoading(on){
+  const btn  = document.getElementById('sh-submit');
+  const ico  = document.getElementById('btn-ico');
+  const txt  = document.getElementById('btn-txt');
+  btn.disabled=on;
+  if(on){
+    ico.outerHTML='<div class="sh-spinner" id="btn-ico"></div>';
+    txt.textContent='Un momento...';
+  } else {
+    const sp=document.getElementById('btn-ico');
+    if(sp&&sp.classList.contains('sh-spinner')){
+      const newIco=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      newIco.id='btn-ico'; newIco.setAttribute('viewBox','0 0 24 24');
+      newIco.style.cssText='width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0';
+      newIco.innerHTML = TAB==='login'
+        ? '<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/>'
+        : '<path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/>';
+      sp.replaceWith(newIco);
+    }
+    txt.textContent = TAB==='login'?'Ingresar':'Crear cuenta';
+    btn.disabled=false;
+  }
+}
+
+// ── SUCCESS SCREEN
+function showSuccess(title, sub){
+  const hide=['sh-tabs','sh-socs','.sh-div','name-row','fw-email','err-email','fw-pw','err-pw','fw-conf','err-conf','.fi-extras','sh-submit','sh-trust','sh-footer'];
+  document.getElementById('sh-tabs').style.display='none';
+  document.querySelector('.sh-socs').style.display='none';
+  document.querySelector('.sh-div').style.display='none';
+  document.querySelector('.fi-extras').style.display='none';
+  document.getElementById('sh-submit').style.display='none';
+  document.getElementById('sh-trust').style.display='none';
+  document.getElementById('sh-footer').style.display='none';
+  ['fw-email','fw-pw','fw-conf'].forEach(id=>{const el=document.getElementById(id); if(el) el.style.display='none';});
+  ['err-email','err-pw','err-conf','name-row'].forEach(id=>{const el=document.getElementById(id); if(el) el.style.display='none';});
+  document.getElementById('suc-title').textContent=title;
+  document.getElementById('suc-sub').textContent=sub;
   document.getElementById('sh-success').classList.add('on');
-  document.getElementById('success-title').textContent = title;
-  document.getElementById('success-sub').textContent = sub;
-  document.getElementById('sheet').classList.add('expanded');
-  try{navigator.vibrate?.([30,20,60])}catch(_){}
-  toast('s','¡Bienvenido a Propix HQ!');
-  // Store role if it was a new register (will pick in onboarding)
-  if(user && !user.role) localStorage.setItem('px-role-pending', 'true');
+  document.getElementById('sheet').classList.add('tall');
+  try{navigator.vibrate?.([40,20,80])}catch(_){}
+  toast('s','¡Cuenta lista! Bienvenido a Propix HQ');
 }
 
-// ── ENTER APP
 function enterApp(){
-  // This fires after success — here you'd redirect or call your app init
-  alert('✅ Redirigiendo a la app…\n\nUsuario guardado en localStorage.\nConéctalo con el index principal aquí.');
+  // CONNECT YOUR APP HERE
+  // Example: window.location.href = 'index.html';
+  toast('i','Redirigiendo… conecta con tu index.html aquí.');
 }
 
-// ── SOCIAL LOGIN
-function socialLogin(provider){
-  toast('i',`${provider.charAt(0).toUpperCase()+provider.slice(1)} — Próximamente disponible`);
-}
+// Social
+function socialLogin(p){ toast('i',`${p} — Conecta el SDK aquí`); }
 
-// ── FORGOT PW
+// Forgot
 function forgotPw(e){
   e.preventDefault();
-  const email = document.getElementById('fi-email').value.trim();
-  if(!email){ markErr('ff-email','err-email'); document.getElementById('err-email').textContent='Ingresa tu email primero'; document.getElementById('err-email').classList.add('on'); return; }
-  toast('i','Link enviado a '+email+' (simulado)');
+  const em=document.getElementById('fi-email').value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){
+    markErr('fw-email','err-email','Ingresa tu email primero'); return;
+  }
+  toast('i',`Link enviado a ${em}`);
 }
 
-// ── INPUT ERROR CLEAR
-['fi-email','fi-pw','fi-conf'].forEach(id=>{
-  document.getElementById(id)?.addEventListener('input', ()=>{
-    const map={
-      'fi-email':['ff-email','err-email'],
-      'fi-pw':['ff-pw','err-pw'],
-      'fi-conf':['ff-conf','err-conf']
-    };
-    const [ff,er]=map[id];
-    document.getElementById(ff)?.classList.remove('err');
-    document.getElementById(er)?.classList.remove('on');
-    document.getElementById(er).textContent = id==='fi-email'?'Ingresa un correo válido':id==='fi-pw'?'Mínimo 6 caracteres':'Las contraseñas no coinciden';
-  });
-});
-
-// ── AUTO-RESTORE SESSION
-(()=>{
-  const session = localStorage.getItem('px-session');
-  if(session){
-    try{
-      const u = JSON.parse(session);
-      setTimeout(()=>toast('s',`¡Hola, ${u.name.split(' ')[0]}! Sesión guardada`), 800);
-    } catch(_) {}
-  }
+// ── AUTO-LOGIN check
+(function(){
+  const s=localStorage.getItem('px-session');
+  if(s){ try{ const u=JSON.parse(s); setTimeout(()=>toast('i',`Hola de nuevo, ${u.name.split(' ')[0]} ✓`),900); }catch(_){} }
 })();
 </script>
 </body>
