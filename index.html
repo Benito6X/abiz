@@ -1535,6 +1535,203 @@ input{
 [data-theme="dark"] #s-login .fi-wrap .fi-ico{background:linear-gradient(180deg,rgba(0,229,160,.14),rgba(255,255,255,.04));box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 6px 16px rgba(0,0,0,.20)}
 [data-theme="dark"] #s-login .fi-pw-eye{background:rgba(255,255,255,.05)}
 
+
+
+/* ══ LOGIN REFINEMENT — cleaner motion + bug fixes ══ */
+#s-login .fi-extras{align-items:center;transition:all .22s var(--ease)}
+#s-login .fi-extras.terms-mode{justify-content:flex-start}
+#s-login .fi-extras.terms-mode .fi-chk-label{min-width:max-content}
+#s-login .fi-wrap{position:relative;overflow:hidden}
+#s-login .pw-field{padding-right:8px}
+#s-login .pw-field input{min-width:0}
+#s-login .pw-field .fi-pw-eye{margin-left:8px;flex:0 0 34px;position:relative;z-index:2}
+#s-login .pw-field .fi-pw-eye.is-on{background:rgba(0,229,160,.14)!important;border-color:rgba(0,229,160,.18)!important;color:var(--jade)!important;box-shadow:0 6px 18px rgba(0,229,160,.12)}
+#s-login .pw-field .fi-pw-eye.is-on svg{transform:scale(1.06)}
+#s-login .fi-wrap .fi-ico{left:12px}
+#s-login .fi-wrap .fi-ico svg{filter:drop-shadow(0 1px 2px rgba(0,229,160,.08))}
+#s-login .fi-wrap:focus-within{transform:translateY(-1px)}
+#s-login .fi-wrap:not(:focus-within){transform:translateY(0)}
+#s-login .fi-chk-label{padding-right:14px}
+#s-login .fi-chk-label::before{opacity:.48}
+#s-login .fi-chk-label:has(.fi-chk-input:checked)::before{opacity:.8}
+#s-login .fi-forgot{padding-right:0}
+#s-login input::-ms-reveal,
+#s-login input::-ms-clear,
+#s-login input::-webkit-contacts-auto-fill-button,
+#s-login input::-webkit-credentials-auto-fill-button,
+#s-login input::-webkit-caps-lock-indicator{display:none !important;visibility:hidden !important;pointer-events:none !important;opacity:0 !important;appearance:none !important;-webkit-appearance:none !important;}
+#s-login input[type="password"]::-webkit-textfield-decoration-container{visibility:hidden !important;display:none !important;pointer-events:none !important;}
+@keyframes pxSoftPop{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+#s-login .fi-chk-input:checked ~ .fi-chk-box{animation:pxSoftPop .26s var(--spring) both}
+#s-login .fi-pw-eye:active svg{animation:pxSoftPop .22s var(--spring) both}
+[data-theme="dark"] #s-login .pw-field .fi-pw-eye.is-on{background:rgba(0,229,160,.14)!important;border-color:rgba(0,229,160,.24)!important;box-shadow:0 8px 20px rgba(0,0,0,.26),0 0 0 1px rgba(0,229,160,.08)}
+
+
+
+/* ══ LOGIN FOCUS STATE — animated green borders ══ */
+#s-login .fi-wrap{
+  transition:border-color .22s var(--ease), background .22s var(--ease), box-shadow .24s var(--ease), transform .22s var(--spring), filter .22s var(--ease);
+}
+#s-login .fi-wrap::after{
+  content:'';position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;
+  border:1.5px solid transparent;opacity:0;transform:scale(.985);
+  transition:opacity .22s var(--ease), transform .24s var(--spring), border-color .22s var(--ease), box-shadow .24s var(--ease);
+}
+#s-login .fi-wrap:hover{
+  border-color:rgba(0,229,160,.18);
+}
+#s-login .fi-wrap:active,
+#s-login .fi-wrap:focus-within{
+  border-color:rgba(0,229,160,.74)!important;
+  background:linear-gradient(180deg,rgba(0,229,160,.08),rgba(255,255,255,.82))!important;
+  box-shadow:0 0 0 3px rgba(0,229,160,.10),0 10px 26px rgba(0,229,160,.10),inset 0 1px 0 rgba(255,255,255,.88)!important;
+  transform:translateY(-1px);
+  filter:saturate(1.03);
+}
+#s-login .fi-wrap:active::after,
+#s-login .fi-wrap:focus-within::after{
+  opacity:1;
+  transform:scale(1);
+  border-color:rgba(0,229,160,.90);
+  box-shadow:0 0 0 1px rgba(0,229,160,.28),0 0 24px rgba(0,229,160,.14);
+}
+#s-login .fi-wrap:hover .fi-ico{border-color:rgba(0,229,160,.16)}
+#s-login .fi-wrap:active .fi-ico,
+#s-login .fi-wrap:focus-within .fi-ico{
+  background:linear-gradient(180deg,rgba(0,229,160,.22),rgba(0,229,160,.10));
+  box-shadow:0 10px 22px rgba(0,229,160,.14),inset 0 1px 0 rgba(255,255,255,.96);
+}
+#s-login .fi-wrap:active .fi-ico svg,
+#s-login .fi-wrap:focus-within .fi-ico svg{
+  stroke:var(--jade);
+  transform:scale(1.08);
+}
+#s-login .fi-wrap:active input::placeholder,
+#s-login .fi-wrap:focus-within input::placeholder{
+  color:rgba(0,140,100,.52);
+}
+#s-login .fi-wrap input:focus{outline:none}
+[data-theme="dark"] #s-login .fi-wrap:hover{
+  border-color:rgba(0,229,160,.24);
+}
+[data-theme="dark"] #s-login .fi-wrap:active,
+[data-theme="dark"] #s-login .fi-wrap:focus-within{
+  border-color:rgba(0,229,160,.84)!important;
+  background:linear-gradient(180deg,rgba(0,229,160,.08),rgba(255,255,255,.05))!important;
+  box-shadow:0 0 0 3px rgba(0,229,160,.12),0 14px 28px rgba(0,0,0,.24),0 0 22px rgba(0,229,160,.10)!important;
+}
+[data-theme="dark"] #s-login .fi-wrap:active::after,
+[data-theme="dark"] #s-login .fi-wrap:focus-within::after{
+  border-color:rgba(0,229,160,.96);
+  box-shadow:0 0 0 1px rgba(0,229,160,.24),0 0 28px rgba(0,229,160,.16);
+}
+[data-theme="dark"] #s-login .fi-wrap:active input::placeholder,
+[data-theme="dark"] #s-login .fi-wrap:focus-within input::placeholder{
+  color:rgba(188,255,236,.46);
+}
+
+
+
+/* ══ LOGIN FIELD EXPERIENCE — double border + brighter icons ══ */
+@keyframes pxFieldAura{
+  0%,100%{box-shadow:0 0 0 1px rgba(0,229,160,.18),0 0 14px rgba(0,229,160,.10)}
+  50%{box-shadow:0 0 0 1px rgba(0,229,160,.34),0 0 24px rgba(0,229,160,.18)}
+}
+@keyframes pxInnerLine{
+  0%,100%{opacity:.72;filter:brightness(1)}
+  50%{opacity:1;filter:brightness(1.16)}
+}
+@keyframes pxIconGlow{
+  0%,100%{filter:brightness(1) saturate(1) drop-shadow(0 0 0 rgba(0,229,160,0));}
+  50%{filter:brightness(1.28) saturate(1.18) drop-shadow(0 0 8px rgba(0,229,160,.28));}
+}
+#s-login .fi-wrap{
+  overflow:visible;
+  isolation:isolate;
+}
+#s-login .fi-wrap::before,
+#s-login .fi-wrap::after{
+  content:'';position:absolute;pointer-events:none;border-radius:inherit;
+  opacity:0;transition:opacity .24s var(--ease),transform .24s var(--spring),box-shadow .24s var(--ease),border-color .24s var(--ease),filter .24s var(--ease);
+}
+#s-login .fi-wrap::before{
+  inset:-3px;
+  border:1px solid rgba(0,229,160,.18);
+  transform:scale(.99);
+}
+#s-login .fi-wrap::after{
+  inset:2px;
+  border:1px solid rgba(0,229,160,.72);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04);
+  transform:scale(.985);
+}
+#s-login .fi-wrap:active,
+#s-login .fi-wrap:focus-within{
+  transform:none !important;
+  border-color:rgba(0,229,160,.76)!important;
+  background:linear-gradient(180deg,rgba(0,229,160,.07),rgba(255,255,255,.84))!important;
+  box-shadow:0 0 0 2px rgba(0,229,160,.08),0 10px 26px rgba(0,229,160,.08),inset 0 1px 0 rgba(255,255,255,.90)!important;
+}
+#s-login .fi-wrap:active::before,
+#s-login .fi-wrap:focus-within::before{
+  opacity:1;transform:scale(1);animation:pxFieldAura 2s ease-in-out infinite;
+}
+#s-login .fi-wrap:active::after,
+#s-login .fi-wrap:focus-within::after{
+  opacity:1;transform:scale(1);animation:pxInnerLine 1.6s ease-in-out infinite;
+}
+#s-login .fi-wrap .fi-ico{
+  transform:none !important;
+  border:1px solid rgba(0,229,160,.10);
+}
+#s-login .fi-wrap .fi-ico svg{
+  transform:none !important;
+}
+#s-login .fi-wrap:active .fi-ico,
+#s-login .fi-wrap:focus-within .fi-ico{
+  transform:none !important;
+  background:linear-gradient(180deg,rgba(0,229,160,.24),rgba(0,229,160,.10));
+  border-color:rgba(0,229,160,.30);
+  box-shadow:0 0 0 1px rgba(0,229,160,.12),0 10px 22px rgba(0,229,160,.14),inset 0 1px 0 rgba(255,255,255,.96);
+}
+#s-login .fi-wrap:active .fi-ico svg,
+#s-login .fi-wrap:focus-within .fi-ico svg{
+  stroke:#7DFFE0;
+  transform:scale(1.10) !important;
+  animation:pxIconGlow 1.8s ease-in-out infinite;
+}
+#s-login .fi-wrap:active .fi-pw-eye,
+#s-login .fi-wrap:focus-within .fi-pw-eye{
+  transform:none !important;
+  background:rgba(0,229,160,.12);
+  border-color:rgba(0,229,160,.16);
+  box-shadow:0 0 0 1px rgba(0,229,160,.10),0 6px 16px rgba(0,229,160,.10);
+}
+#s-login .fi-wrap:active .fi-pw-eye svg,
+#s-login .fi-wrap:focus-within .fi-pw-eye svg{
+  transform:scale(1.08) !important;
+  animation:pxIconGlow 1.8s ease-in-out infinite;
+}
+[data-theme="dark"] #s-login .fi-wrap:active,
+[data-theme="dark"] #s-login .fi-wrap:focus-within{
+  transform:none !important;
+  border-color:rgba(0,229,160,.88)!important;
+  background:linear-gradient(180deg,rgba(0,229,160,.08),rgba(255,255,255,.05))!important;
+  box-shadow:0 0 0 2px rgba(0,229,160,.10),0 16px 30px rgba(0,0,0,.24),0 0 20px rgba(0,229,160,.08)!important;
+}
+[data-theme="dark"] #s-login .fi-wrap::before{
+  border-color:rgba(0,229,160,.26);
+}
+[data-theme="dark"] #s-login .fi-wrap::after{
+  border-color:rgba(0,229,160,.94);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+}
+[data-theme="dark"] #s-login .fi-wrap:active .fi-ico,
+[data-theme="dark"] #s-login .fi-wrap:focus-within .fi-ico{
+  background:linear-gradient(180deg,rgba(0,229,160,.22),rgba(255,255,255,.05));
+  box-shadow:0 0 0 1px rgba(0,229,160,.14),0 10px 24px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.08);
+}
+
 /* ══ APP POLISH — premium white surfaces, preserved dark mode ══ */
 [data-theme="light"]{
   --bg:#F5F8FC;--bg2:#EDF3F8;--sur:rgba(255,255,255,.92);--sur2:rgba(244,248,252,.92);
@@ -1591,6 +1788,241 @@ input{
 [data-theme="light"] textarea::placeholder{color:rgba(83,107,131,.52);}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+
+
+/* ══ LOGIN ICON REBALANCE — cleaner, brighter, more elegant ══ */
+@keyframes pxIconGlowSoft{
+  0%,100%{filter:brightness(1) drop-shadow(0 0 0 rgba(0,229,160,0));opacity:.94}
+  50%{filter:brightness(1.22) drop-shadow(0 0 8px rgba(0,229,160,.22));opacity:1}
+}
+#s-login .fi-wrap .fi-ico{
+  left:14px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  width:18px !important;
+  height:18px !important;
+  border:none !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#s-login .fi-wrap .fi-ico svg{
+  width:17px !important;
+  height:17px !important;
+  stroke:rgba(194,232,223,.74);
+  filter:none !important;
+  transform:none !important;
+  transition:stroke .22s var(--ease), transform .22s var(--spring), filter .22s var(--ease), opacity .22s var(--ease);
+}
+#s-login .fi-wrap:active .fi-ico,
+#s-login .fi-wrap:focus-within .fi-ico{
+  transform:translateY(-50%) !important;
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+}
+#s-login .fi-wrap:hover .fi-ico svg{
+  stroke:rgba(205,248,236,.86);
+}
+#s-login .fi-wrap:active .fi-ico svg,
+#s-login .fi-wrap:focus-within .fi-ico svg{
+  stroke:#9DFFE7 !important;
+  transform:scale(1.08) !important;
+  filter:drop-shadow(0 0 8px rgba(0,229,160,.18)) !important;
+  animation:pxIconGlowSoft 1.7s ease-in-out infinite;
+}
+#s-login .fi-wrap .fi-pw-eye{
+  background:rgba(255,255,255,.04);
+}
+#s-login .fi-wrap:active .fi-pw-eye,
+#s-login .fi-wrap:focus-within .fi-pw-eye{
+  transform:none !important;
+  background:rgba(0,229,160,.10) !important;
+  border-color:rgba(0,229,160,.14) !important;
+  box-shadow:0 0 0 1px rgba(0,229,160,.08),0 6px 16px rgba(0,229,160,.08) !important;
+}
+#s-login .fi-wrap .fi-pw-eye svg{
+  stroke:rgba(194,232,223,.72);
+}
+#s-login .fi-wrap:active .fi-pw-eye svg,
+#s-login .fi-wrap:focus-within .fi-pw-eye svg{
+  stroke:#9DFFE7;
+  transform:scale(1.06) !important;
+  filter:drop-shadow(0 0 8px rgba(0,229,160,.16));
+  animation:pxIconGlowSoft 1.7s ease-in-out infinite;
+}
+[data-theme="light"] #s-login .fi-wrap .fi-ico svg,
+[data-theme="light"] #s-login .fi-wrap .fi-pw-eye svg{
+  stroke:rgba(11,106,74,.72);
+}
+[data-theme="light"] #s-login .fi-wrap:active .fi-ico svg,
+[data-theme="light"] #s-login .fi-wrap:focus-within .fi-ico svg,
+[data-theme="light"] #s-login .fi-wrap:active .fi-pw-eye svg,
+[data-theme="light"] #s-login .fi-wrap:focus-within .fi-pw-eye svg{
+  stroke:#00B87D !important;
+  filter:drop-shadow(0 0 6px rgba(0,184,125,.16)) !important;
+}
+
+
+
+/* ══ LOGIN FINAL REPAIR — more background, premium borders, clean icons ══ */
+#gal, .g-slide{background-repeat:no-repeat;background-size:cover;background-position:center}
+#s-login #sheet{max-height:43svh;background:linear-gradient(180deg,rgba(8,16,30,.56) 0%,rgba(8,16,30,.88) 18%,rgba(8,16,30,.94) 100%);}
+#s-login #sheet.tall{max-height:64svh}
+#s-login .sh-inner{padding:0 20px calc(max(env(safe-area-inset-bottom),18px) + 14px)}
+#s-login .sh-handle{margin:10px auto 14px}
+#s-login .sh-brand{margin-bottom:14px}
+#s-login .sh-logo-outer{width:56px;height:56px;margin-bottom:8px}
+#s-login .sh-logo-img,#s-login .sh-logo-fb{width:56px;height:56px;border-radius:16px}
+#s-login .sh-wordmark{font-size:23px}
+#s-login .sh-hq{font-size:11px;margin-top:3px}
+#s-login .sh-tagline{font-size:11.5px;max-width:220px;margin-top:5px}
+#s-login .sh-socs{margin-bottom:12px}
+#s-login .sh-div{margin-bottom:12px}
+#s-login .fi-wrap{
+  overflow:hidden !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.05)) !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 10px 24px rgba(0,0,0,.14) !important;
+}
+#s-login .fi-wrap::before{inset:-2px !important;border:1px solid rgba(0,229,160,.22) !important;opacity:0;transform:scale(.995)}
+#s-login .fi-wrap::after{inset:2px !important;border:1px solid rgba(0,229,160,.88) !important;opacity:0;transform:scale(.99);box-shadow:none !important}
+#s-login .fi-wrap:active,
+#s-login .fi-wrap:focus-within{
+  background:linear-gradient(180deg,rgba(0,229,160,.06),rgba(255,255,255,.06)) !important;
+  border-color:rgba(0,229,160,.34) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 32px rgba(0,0,0,.18),0 0 0 1px rgba(0,229,160,.05) !important;
+}
+#s-login .fi-wrap:active::before,
+#s-login .fi-wrap:focus-within::before{opacity:1;animation:none;box-shadow:0 0 18px rgba(0,229,160,.10)}
+#s-login .fi-wrap:active::after,
+#s-login .fi-wrap:focus-within::after{opacity:1;animation:none;box-shadow:0 0 0 1px rgba(0,229,160,.08)}
+#s-login .fi-wrap input,
+#s-login .fi-wrap input::placeholder{transition:color .22s var(--ease)}
+#s-login .fi-wrap input{padding-left:0}
+#s-login .pw-input.is-masked{-webkit-text-security:disc;text-security:disc}
+#s-login .pw-input:not(.is-masked){-webkit-text-security:none;text-security:none}
+#s-login .fi-wrap input::-ms-reveal,
+#s-login .fi-wrap input::-ms-clear,
+#s-login .fi-wrap input::-webkit-credentials-auto-fill-button,
+#s-login .fi-wrap input::-webkit-contacts-auto-fill-button,
+#s-login .fi-wrap input::-webkit-caps-lock-indicator{display:none!important;opacity:0!important;width:0!important;height:0!important;visibility:hidden!important;pointer-events:none!important}
+#s-login .fi-wrap .fi-ico{
+  left:16px !important;top:50% !important;transform:translateY(-50%) !important;
+  width:18px !important;height:18px !important;background:transparent !important;border:none !important;border-radius:0 !important;box-shadow:none !important;
+}
+#s-login .fi-wrap .fi-ico svg{
+  width:17px !important;height:17px !important;stroke:rgba(255,255,255,.54) !important;filter:none !important;transform:none !important;animation:none !important;
+}
+#s-login .fi-wrap:hover .fi-ico svg{stroke:rgba(255,255,255,.72) !important}
+#s-login .fi-wrap:active .fi-ico svg,
+#s-login .fi-wrap:focus-within .fi-ico svg{
+  stroke:#7EFFE1 !important;transform:scale(1.06) !important;filter:drop-shadow(0 0 8px rgba(0,229,160,.14)) !important;animation:none !important;
+}
+#s-login .fi-pw-eye{
+  width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.06) !important;border:1px solid rgba(255,255,255,.06) !important;box-shadow:none !important;
+}
+#s-login .fi-pw-eye svg{stroke:rgba(255,255,255,.58) !important;filter:none !important;animation:none !important}
+#s-login .fi-wrap:active .fi-pw-eye,
+#s-login .fi-wrap:focus-within .fi-pw-eye{background:rgba(0,229,160,.08) !important;border-color:rgba(0,229,160,.14) !important;transform:none !important}
+#s-login .fi-wrap:active .fi-pw-eye svg,
+#s-login .fi-wrap:focus-within .fi-pw-eye svg{stroke:#7EFFE1 !important;transform:scale(1.04) !important;filter:drop-shadow(0 0 7px rgba(0,229,160,.12)) !important;animation:none !important}
+#s-login .fi-row2{gap:10px;margin-bottom:10px}
+#s-login .fi-extras{margin-bottom:12px}
+#s-login .sh-tabs{margin-bottom:14px}
+#s-login .sh-trust{margin-bottom:10px}
+#s-login .sh-footer{font-size:12.5px}
+@media (max-height:820px){
+  #s-login #sheet{max-height:41svh}
+  #s-login #sheet.tall{max-height:60svh}
+  #s-login .sh-tagline,#s-login .sh-trust{display:none}
+}
+
+
+
+/* ══ LOGIN VISUAL STABILIZER — match Propix premium reference ══ */
+#s-login .g-slide img{filter:saturate(1.06) contrast(1.02) brightness(.96)!important;object-position:center center}
+#s-login .g-slide::after{background:linear-gradient(to bottom,rgba(0,0,0,.06) 0%,rgba(0,0,0,0) 24%,rgba(0,0,0,.06) 52%,rgba(0,0,0,.38) 76%,rgba(3,11,22,.52) 100%)!important}
+#s-login .g-info{bottom:calc(34svh + 18px)!important;left:18px;right:18px}
+#s-login .g-loc{padding:7px 12px;font-size:11px}
+#s-login .g-pname{font-size:18px!important;line-height:1.08}
+#s-login .g-pprice{font-size:16px!important}
+#s-login #sheet{max-height:36svh!important;border-radius:30px 30px 0 0}
+#s-login #sheet.tall{max-height:58svh!important}
+#s-login .sh-inner{padding:0 18px calc(max(env(safe-area-inset-bottom),18px) + 14px)!important}
+#s-login .sh-handle{margin:10px auto 12px!important;width:42px;height:4px}
+#s-login .sh-brand{margin-bottom:12px!important}
+#s-login .sh-halo{width:112px;height:112px;top:-22px;opacity:.8}
+#s-login .sh-logo-outer{width:52px!important;height:52px!important;margin-bottom:8px!important}
+#s-login .sh-logo-img,#s-login .sh-logo-fb{width:52px!important;height:52px!important;border-radius:15px!important}
+#s-login .sh-wordmark{font-size:22px!important;letter-spacing:.06em}
+#s-login .sh-hq{font-size:10.5px!important;margin-top:3px!important}
+#s-login .sh-tagline{font-size:11px!important;line-height:1.4;max-width:210px;margin-top:5px!important}
+#s-login .sh-hook{margin-top:8px!important;padding:7px 12px!important;font-size:11px!important}
+#s-login .sh-tabs{margin-bottom:12px!important}
+#s-login .sh-socs{margin-bottom:10px!important}
+#s-login .sh-div{margin-bottom:10px!important}
+#s-login .fi-row2{gap:10px;margin-bottom:10px}
+#s-login .fi-wrap{height:50px!important;border-radius:16px!important;padding-left:42px!important;padding-right:10px!important}
+#s-login .pw-field{padding-right:8px!important}
+#s-login .fi-wrap input{font-size:14.5px!important;font-weight:500}
+#s-login .fi-wrap .fi-ico{left:14px!important;width:16px!important;height:16px!important}
+#s-login .fi-wrap .fi-ico svg{width:16px!important;height:16px!important;stroke-width:1.9!important}
+#s-login .fi-pw-eye{width:34px!important;height:34px!important;border-radius:11px!important}
+#s-login .fi-pw-eye svg{width:16px!important;height:16px!important;stroke-width:1.9!important}
+#s-login .fi-extras{margin-bottom:12px!important}
+#s-login .fi-chk-label{min-height:40px!important;padding:8px 12px 8px 8px!important;border-radius:15px!important}
+#s-login .sh-submit{min-height:52px!important;border-radius:17px!important;margin-bottom:12px!important}
+#s-login .sh-trust{margin-bottom:10px!important}
+#s-login .sh-footer{font-size:12.5px!important}
+
+/* light = premium white (default) */
+[data-theme="light"] #s-login{background:#EDF4FB;color:#07162A}
+[data-theme="light"] #s-login::before{background:radial-gradient(circle at 18% 12%,rgba(0,229,160,.14),transparent 28%),radial-gradient(circle at 88% 18%,rgba(45,126,255,.10),transparent 30%),radial-gradient(circle at 50% 100%,rgba(29,185,107,.12),transparent 40%)}
+[data-theme="light"] #s-login #sheet{background:linear-gradient(180deg,rgba(255,255,255,.70) 0%,rgba(255,255,255,.88) 18%,rgba(248,251,255,.94) 100%)!important;border-top:1px solid rgba(255,255,255,.78)!important;box-shadow:0 -2px 0 rgba(255,255,255,.72),0 -24px 64px rgba(7,22,42,.12)!important}
+[data-theme="light"] #s-login .top-btn{background:rgba(255,255,255,.72)!important;border-color:rgba(255,255,255,.82)!important;color:#07162A!important;box-shadow:0 10px 26px rgba(7,22,42,.10),inset 0 1px 0 rgba(255,255,255,.92)!important}
+[data-theme="light"] #s-login .g-loc{background:rgba(255,255,255,.62)!important;border-color:rgba(255,255,255,.70)!important;color:#10263E!important}
+[data-theme="light"] #s-login .g-pname{color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.28)}
+[data-theme="light"] #s-login .g-pprice{color:#31F0AE!important;text-shadow:0 0 18px rgba(0,229,160,.28)}
+[data-theme="light"] #s-login .sh-tabs{background:rgba(7,22,42,.05)!important;border-color:rgba(7,22,42,.08)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.68)!important}
+[data-theme="light"] #s-login .sh-soc,[data-theme="light"] #s-login .sh-trust-item{background:rgba(255,255,255,.74)!important;border-color:rgba(7,22,42,.08)!important;box-shadow:0 8px 20px rgba(7,22,42,.06),inset 0 1px 0 rgba(255,255,255,.86)!important}
+[data-theme="light"] #s-login .fi-wrap{background:linear-gradient(180deg,rgba(255,255,255,.82),rgba(245,249,252,.94))!important;border:1px solid rgba(7,22,42,.10)!important;box-shadow:0 8px 20px rgba(7,22,42,.06),inset 0 1px 0 rgba(255,255,255,.90)!important}
+[data-theme="light"] #s-login .fi-wrap input{color:#07162A!important}
+[data-theme="light"] #s-login .fi-wrap input::placeholder{color:rgba(70,96,122,.54)!important}
+[data-theme="light"] #s-login .fi-wrap::before{border-color:rgba(0,184,125,.18)!important}
+[data-theme="light"] #s-login .fi-wrap::after{border-color:rgba(0,184,125,.60)!important}
+[data-theme="light"] #s-login .fi-wrap:focus-within,[data-theme="light"] #s-login .fi-wrap:active{background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(246,255,251,.96))!important;border-color:rgba(0,184,125,.24)!important;box-shadow:0 10px 24px rgba(0,184,125,.08),0 0 0 1px rgba(0,184,125,.05),inset 0 1px 0 rgba(255,255,255,.96)!important}
+[data-theme="light"] #s-login .fi-wrap .fi-ico svg{stroke:rgba(11,106,74,.72)!important}
+[data-theme="light"] #s-login .fi-wrap:hover .fi-ico svg{stroke:rgba(11,106,74,.9)!important}
+[data-theme="light"] #s-login .fi-wrap:focus-within .fi-ico svg,[data-theme="light"] #s-login .fi-wrap:active .fi-ico svg{stroke:#00B87D!important;filter:drop-shadow(0 0 6px rgba(0,184,125,.14))!important}
+[data-theme="light"] #s-login .fi-pw-eye{background:rgba(7,22,42,.04)!important;border-color:rgba(7,22,42,.04)!important}
+[data-theme="light"] #s-login .fi-pw-eye svg{stroke:rgba(11,106,74,.72)!important}
+[data-theme="light"] #s-login .fi-wrap:focus-within .fi-pw-eye,[data-theme="light"] #s-login .fi-wrap:active .fi-pw-eye{background:rgba(0,184,125,.08)!important;border-color:rgba(0,184,125,.12)!important}
+[data-theme="light"] #s-login .fi-wrap:focus-within .fi-pw-eye svg,[data-theme="light"] #s-login .fi-wrap:active .fi-pw-eye svg{stroke:#00B87D!important}
+[data-theme="light"] #s-login .fi-chk-label{background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(244,249,252,.94))!important;border-color:rgba(7,22,42,.08)!important;box-shadow:0 8px 22px rgba(7,22,42,.06),inset 0 1px 0 rgba(255,255,255,.92)!important}
+[data-theme="light"] #s-login .fi-chk-text,[data-theme="light"] #s-login .sh-footer,[data-theme="light"] #s-login .sh-trust-item{color:rgba(7,22,42,.60)!important}
+
+/* dark remains available but lighter and cleaner */
+[data-theme="dark"] #s-login #sheet{background:linear-gradient(180deg,rgba(7,14,26,.62) 0%,rgba(6,12,24,.86) 18%,rgba(6,12,24,.92) 100%)!important;box-shadow:0 -1px 0 rgba(255,255,255,.08),0 -24px 70px rgba(0,0,0,.62)!important}
+[data-theme="dark"] #s-login .g-info{filter:drop-shadow(0 10px 26px rgba(0,0,0,.28))}
+[data-theme="dark"] #s-login .fi-wrap{background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.05))!important;border:1px solid rgba(255,255,255,.11)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 8px 18px rgba(0,0,0,.14)!important}
+[data-theme="dark"] #s-login .fi-wrap input{color:#fff!important}
+[data-theme="dark"] #s-login .fi-wrap input::placeholder{color:rgba(255,255,255,.44)!important}
+[data-theme="dark"] #s-login .fi-wrap::before{border-color:rgba(0,229,160,.20)!important}
+[data-theme="dark"] #s-login .fi-wrap::after{border-color:rgba(0,229,160,.76)!important}
+[data-theme="dark"] #s-login .fi-wrap:focus-within,[data-theme="dark"] #s-login .fi-wrap:active{border-color:rgba(0,229,160,.20)!important;box-shadow:0 10px 26px rgba(0,0,0,.18),0 0 0 1px rgba(0,229,160,.04),inset 0 1px 0 rgba(255,255,255,.07)!important}
+[data-theme="dark"] #s-login .fi-wrap .fi-ico svg,[data-theme="dark"] #s-login .fi-pw-eye svg{stroke:rgba(255,255,255,.60)!important}
+[data-theme="dark"] #s-login .fi-wrap:focus-within .fi-ico svg,[data-theme="dark"] #s-login .fi-wrap:active .fi-ico svg,[data-theme="dark"] #s-login .fi-wrap:focus-within .fi-pw-eye svg,[data-theme="dark"] #s-login .fi-wrap:active .fi-pw-eye svg{stroke:#84FFE4!important}
+
+@media (max-height:760px){
+  #s-login #sheet{max-height:34svh!important}
+  #s-login #sheet.tall{max-height:56svh!important}
+  #s-login .sh-tagline,#s-login .sh-trust{display:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -1692,20 +2124,20 @@ input{
     <div class="fi-err" id="err-email">Ingresa un correo válido</div>
 
     <!-- PASSWORD -->
-    <div class="fi-wrap" id="fw-pw">
+    <div class="fi-wrap pw-field" id="fw-pw">
       <div class="fi-ico"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-      <input type="password" id="fi-pw" placeholder="Contraseña" autocomplete="current-password" minlength="6" required>
-      <button class="fi-pw-eye" onclick="togglePw('fi-pw','eye-pw')" type="button">
+      <input type="text" id="fi-pw" class="pw-input is-masked" placeholder="Contraseña" autocomplete="current-password" minlength="6" spellcheck="false" required>
+      <button class="fi-pw-eye" onclick="togglePw('fi-pw','eye-pw')" type="button" aria-label="Mostrar u ocultar contraseña" aria-pressed="false">
         <svg id="eye-pw" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
     </div>
     <div class="fi-err" id="err-pw">Mínimo 6 caracteres</div>
 
     <!-- CONFIRM (register only) -->
-    <div class="fi-wrap reg-only" id="fw-conf">
+    <div class="fi-wrap reg-only pw-field" id="fw-conf">
       <div class="fi-ico"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-      <input type="password" id="fi-conf" placeholder="Confirmar contraseña" autocomplete="new-password" minlength="6">
-      <button class="fi-pw-eye" onclick="togglePw('fi-conf','eye-conf')" type="button">
+      <input type="text" id="fi-conf" class="pw-input is-masked" placeholder="Confirmar contraseña" autocomplete="new-password" minlength="6" spellcheck="false">
+      <button class="fi-pw-eye" onclick="togglePw('fi-conf','eye-conf')" type="button" aria-label="Mostrar u ocultar confirmación" aria-pressed="false">
         <svg id="eye-conf" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       </button>
     </div>
@@ -2166,7 +2598,7 @@ input{
 
 // ── THEME
 (function(){
-  window.PX_THEME_VERSION = 'premium-white-v4';
+  window.PX_THEME_VERSION = 'premium-white-v5';
   window.PX_VALID_THEMES = (window.PX_VALID_THEMES instanceof Set)
     ? window.PX_VALID_THEMES
     : new Set(['light','dark']);
@@ -2314,6 +2746,7 @@ function switchTab(t){
   const tr     = document.getElementById('tab-reg');
   const forgot = document.getElementById('fi-forgot');
   const chkTxt = document.getElementById('chk-text');
+  const extras = document.querySelector('#s-login .fi-extras');
   const ftTxt  = document.getElementById('footer-txt');
   const ftLnk  = document.getElementById('footer-lnk');
   const btnTxt = document.getElementById('btn-txt');
@@ -2332,6 +2765,7 @@ function switchTab(t){
   if(t==='login'){
     tabs.classList.remove('reg');
     tl.classList.add('on'); tr.classList.remove('on');
+    extras?.classList.remove('terms-mode');
     forgot.style.display='block'; chkTxt.textContent='Recordarme';
     ftTxt.textContent='¿Primera vez? '; ftLnk.textContent='Crear cuenta gratis';
     btnTxt.textContent='Ingresar';
@@ -2341,6 +2775,7 @@ function switchTab(t){
   } else {
     tabs.classList.add('reg');
     tr.classList.add('on'); tl.classList.remove('on');
+    extras?.classList.add('terms-mode');
     forgot.style.display='none'; chkTxt.textContent='Acepto los términos';
     ftTxt.textContent='¿Ya tienes cuenta? '; ftLnk.textContent='Iniciar sesión';
     btnTxt.textContent='Crear cuenta';
@@ -2355,12 +2790,16 @@ function switchTab(t){
 function togglePw(id, ico){
   const inp = document.getElementById(id);
   const svg = document.getElementById(ico);
-  if(!inp||!svg) return;
-  const show = inp.type==='text';
-  inp.type = show?'password':'text';
-  svg.innerHTML = show
-    ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
-    : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  const btn = svg?.closest('.fi-pw-eye');
+  if(!inp||!svg||!btn) return;
+  const willShow = inp.classList.contains('is-masked');
+  inp.classList.toggle('is-masked', !willShow);
+  btn.classList.toggle('is-on', willShow);
+  btn.setAttribute('aria-pressed', willShow ? 'true' : 'false');
+  btn.setAttribute('aria-label', willShow ? 'Ocultar contraseña' : 'Mostrar contraseña');
+  svg.innerHTML = willShow
+    ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
+    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
 }
 
 // ── VALIDATION
