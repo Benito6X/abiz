@@ -2042,6 +2042,63 @@ input{
 #s-login #g-stage-info{display:block !important;opacity:1 !important;visibility:visible !important;pointer-events:none;animation:fadeUp .42s var(--eout) both}
 #s-login #g-stage-info.is-changing{animation:none;opacity:.72;transform:translateY(8px)}
 
+
+
+/* ══ MOBILE LOGIN FIT — better proportions + register spacing + sharper gallery ══ */
+#s-login{
+  --sheet-login-space: clamp(210px, 33svh, 315px);
+  --sheet-reg-space: clamp(420px, 58svh, 610px);
+  --sheet-focus-space: min(86svh, calc(100svh - max(env(safe-area-inset-top), 12px) - 12px));
+}
+#s-login #sheet{max-height:var(--sheet-login-space)!important}
+#s-login.mode-reg #sheet{max-height:var(--sheet-reg-space)!important}
+#s-login.mode-reg #sheet.tall{max-height:var(--sheet-focus-space)!important}
+#s-login:not(.mode-reg) #sheet.tall{max-height:min(74svh, 560px)!important}
+#s-login #g-stage-info{bottom:calc(var(--sheet-login-space) + 16px)!important}
+#s-login.mode-reg #g-stage-info{bottom:calc(var(--sheet-reg-space) + 12px)!important}
+#s-login .g-slide img{image-rendering:auto;filter:saturate(1.08) contrast(1.03) brightness(.98)!important}
+#s-login .sh-inner{padding:0 18px calc(max(env(safe-area-inset-bottom),16px) + 14px)!important}
+#s-login.mode-reg .sh-brand{margin-bottom:10px!important}
+#s-login.mode-reg .sh-socs{margin-bottom:10px!important}
+#s-login.mode-reg .sh-div{margin-bottom:10px!important}
+#s-login.mode-reg .sh-trust{display:none!important}
+#s-login.mode-reg .sh-tagline{display:none!important}
+#s-login.mode-reg .fi-extras{margin-bottom:10px!important}
+#s-login.mode-reg .sh-submit{margin-bottom:10px!important}
+@media (max-width: 430px){
+  #s-login{
+    --sheet-login-space: clamp(208px, 31svh, 300px);
+    --sheet-reg-space: clamp(410px, 56svh, 590px);
+  }
+  #s-login .g-toprow{padding:0 16px}
+  #s-login .top-btn{width:38px;height:38px}
+  #s-login #g-stage-info{left:16px;right:16px}
+  #s-login .g-loc{font-size:10.8px;padding:6px 11px}
+  #s-login .g-pname{font-size:17px!important;line-height:1.08}
+  #s-login .g-pprice{font-size:15px!important}
+  #s-login .sh-logo-outer{width:48px!important;height:48px!important}
+  #s-login .sh-logo-img,#s-login .sh-logo-fb{width:48px!important;height:48px!important}
+  #s-login .sh-wordmark{font-size:20px!important}
+  #s-login .sh-hq{font-size:10px!important}
+  #s-login .sh-hook{font-size:10.5px!important;padding:7px 10px!important}
+  #s-login .sh-tabs{margin-bottom:10px!important}
+  #s-login .fi-wrap{height:48px!important;border-radius:15px!important}
+  #s-login .fi-wrap input{font-size:14px!important}
+  #s-login .fi-forgot,#s-login .fi-chk-text{font-size:12px!important}
+}
+@media (max-height: 860px){
+  #s-login.mode-reg #g-stage-info{bottom:calc(var(--sheet-reg-space) + 8px)!important}
+}
+@media (max-height: 760px){
+  #s-login{
+    --sheet-login-space: clamp(198px, 29svh, 285px);
+    --sheet-reg-space: clamp(395px, 54svh, 560px);
+  }
+  #s-login .g-pname{font-size:16px!important}
+  #s-login .g-pprice{font-size:14px!important}
+  #s-login .sh-hook{display:none!important}
+}
+
 </style>
 </head>
 <body>
@@ -2071,19 +2128,19 @@ input{
   </div>
   <div class="g-track" id="g-track">
     <div class="g-slide on">
-      <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=85&fit=crop&crop=top" loading="eager" draggable="false" alt="">
+      <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&crop=entropy&w=1600&q=92&dpr=2" loading="eager" draggable="false" alt="">
       <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Costa del Este, Panamá</div><div class="g-pname">Penthouse Vista al Mar</div><div class="g-pprice">$1,250,000</div></div>
     </div>
     <div class="g-slide">
-      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
+      <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&crop=entropy&w=1600&q=92&dpr=2" loading="lazy" draggable="false" alt="">
       <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Punta Pacífica, Panamá</div><div class="g-pname">Residencia de Lujo 38A</div><div class="g-pprice">$2,450,000</div></div>
     </div>
     <div class="g-slide">
-      <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
+      <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&crop=entropy&w=1600&q=92&dpr=2" loading="lazy" draggable="false" alt="">
       <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Albrook, Panamá</div><div class="g-pname">Villa Privada con Piscina</div><div class="g-pprice">$850,000</div></div>
     </div>
     <div class="g-slide">
-      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
+      <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&crop=entropy&w=1600&q=92&dpr=2" loading="lazy" draggable="false" alt="">
       <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Marbella, Panamá</div><div class="g-pname">Apartamento Amueblado</div><div class="g-pprice">$1,800/mes</div></div>
     </div>
   </div>
@@ -2782,6 +2839,7 @@ function toast(type, msg, subOrDur=3800, dur=3800){
 window.PX_TAB = window.PX_TAB || 'login';
 function switchTab(t){
   window.PX_TAB = t;
+  const root   = document.getElementById('s-login');
   const tabs   = document.getElementById('sh-tabs');
   const tl     = document.getElementById('tab-login');
   const tr     = document.getElementById('tab-reg');
@@ -2806,6 +2864,7 @@ function switchTab(t){
   if(t==='login'){
     tabs.classList.remove('reg');
     tl.classList.add('on'); tr.classList.remove('on');
+    root?.classList.remove('mode-reg');
     extras?.classList.remove('terms-mode');
     forgot.style.display='block'; chkTxt.textContent='Recordarme';
     ftTxt.textContent='¿Primera vez? '; ftLnk.textContent='Crear cuenta gratis';
@@ -2816,6 +2875,7 @@ function switchTab(t){
   } else {
     tabs.classList.add('reg');
     tr.classList.add('on'); tl.classList.remove('on');
+    root?.classList.add('mode-reg');
     extras?.classList.add('terms-mode');
     forgot.style.display='none'; chkTxt.textContent='Acepto los términos';
     ftTxt.textContent='¿Ya tienes cuenta? '; ftLnk.textContent='Iniciar sesión';
