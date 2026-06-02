@@ -2023,6 +2023,25 @@ input{
   #s-login .sh-tagline,#s-login .sh-trust{display:none!important}
 }
 
+
+
+/* ══ LOGIN BUGFIXES — single active card info + better password reveal + crisp terms icon ══ */
+#s-login .g-slide .g-info{opacity:0;visibility:hidden;pointer-events:none;transform:translateY(10px);transition:opacity .34s var(--ease),transform .42s var(--spring),visibility .34s step-end}
+#s-login .g-slide.on .g-info{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);transition:opacity .34s var(--ease),transform .42s var(--spring),visibility 0s}
+#s-login .g-slide:not(.on) .g-info *{pointer-events:none}
+#s-login .fi-chk-box svg{width:14px!important;height:14px!important;stroke-width:2.25!important;stroke:#041520;fill:none;stroke-linecap:round;stroke-linejoin:round;shape-rendering:geometricPrecision}
+#s-login .fi-chk-input:checked ~ .fi-chk-box svg{transform:scale(1.04)!important;opacity:1!important}
+#s-login .pw-input{font-family:inherit;letter-spacing:.01em}
+#s-login .pw-input.is-masked{letter-spacing:.16em}
+#s-login .pw-input:not(.is-masked){letter-spacing:.01em}
+
+
+
+/* ══ GALLERY INFO SYNC — one active info card for all slides ══ */
+#s-login .g-slide > .g-info{display:none !important}
+#s-login #g-stage-info{display:block !important;opacity:1 !important;visibility:visible !important;pointer-events:none;animation:fadeUp .42s var(--eout) both}
+#s-login #g-stage-info.is-changing{animation:none;opacity:.72;transform:translateY(8px)}
+
 </style>
 </head>
 <body>
@@ -2067,6 +2086,11 @@ input{
       <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=85&fit=crop" loading="lazy" draggable="false" alt="">
       <div class="g-info"><div class="g-loc"><div class="g-dot"></div>Marbella, Panamá</div><div class="g-pname">Apartamento Amueblado</div><div class="g-pprice">$1,800/mes</div></div>
     </div>
+  </div>
+  <div class="g-info" id="g-stage-info" aria-live="polite">
+    <div class="g-loc" id="g-stage-loc"><div class="g-dot"></div>Costa del Este, Panamá</div>
+    <div class="g-pname" id="g-stage-name">Penthouse Vista al Mar</div>
+    <div class="g-pprice" id="g-stage-price">$1,250,000</div>
   </div>
 </div>
 
@@ -2147,7 +2171,7 @@ input{
     <div class="fi-extras">
       <label class="fi-chk-label">
         <input class="fi-chk-input" type="checkbox" id="fi-remember" checked>
-        <div class="fi-chk-box"><svg viewBox="0 0 12 12"><polyline points="1.5,6 5,9.5 10.5,2.5"/></svg></div>
+        <div class="fi-chk-box"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 9.2 16.5 19 7.5"/></svg></div>
         <span class="fi-chk-text" id="chk-text">Recordarme</span>
       </label>
       <a href="#" class="fi-forgot" id="fi-forgot" onclick="forgotPw(event)">¿Olvidaste tu clave?</a>
@@ -2665,6 +2689,23 @@ function toast(type, msg, subOrDur=3800, dur=3800){
       b.classList.toggle('done', i<cur);
       if(i>cur) b.classList.remove('done');
     });
+    const stage=document.getElementById('g-stage-info');
+    const loc=document.getElementById('g-stage-loc');
+    const name=document.getElementById('g-stage-name');
+    const price=document.getElementById('g-stage-price');
+    const active=slides[cur];
+    if(stage && active){
+      const sLoc=active.querySelector('.g-loc');
+      const sName=active.querySelector('.g-pname');
+      const sPrice=active.querySelector('.g-pprice');
+      stage.classList.add('is-changing');
+      requestAnimationFrame(()=>{
+        if(sLoc && loc) loc.innerHTML=sLoc.innerHTML;
+        if(sName && name) name.textContent=sName.textContent;
+        if(sPrice && price) price.textContent=sPrice.textContent;
+        requestAnimationFrame(()=>stage.classList.remove('is-changing'));
+      });
+    }
   }
 
   function move(anim){
@@ -2794,6 +2835,8 @@ function togglePw(id, ico){
   if(!inp||!svg||!btn) return;
   const willShow = inp.classList.contains('is-masked');
   inp.classList.toggle('is-masked', !willShow);
+  inp.style.webkitTextSecurity = willShow ? 'none' : 'disc';
+  inp.style.textSecurity = willShow ? 'none' : 'disc';
   btn.classList.toggle('is-on', willShow);
   btn.setAttribute('aria-pressed', willShow ? 'true' : 'false');
   btn.setAttribute('aria-label', willShow ? 'Ocultar contraseña' : 'Mostrar contraseña');
@@ -2801,6 +2844,16 @@ function togglePw(id, ico){
     ? '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>'
     : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
 }
+
+(function(){
+  ['fi-pw','fi-conf'].forEach(id=>{
+    const inp=document.getElementById(id);
+    if(inp && inp.classList.contains('is-masked')){
+      inp.style.webkitTextSecurity='disc';
+      inp.style.textSecurity='disc';
+    }
+  });
+})();
 
 // ── VALIDATION
 function clearErrors(){
